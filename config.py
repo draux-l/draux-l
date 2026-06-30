@@ -26,17 +26,8 @@ PROFILE = {
     "building": "CLI tools, side projects",      # <-- CAMBIAR: what you are building
     "reading": "Clean Architecture",             # <-- CAMBIAR: what you are reading
 
-    # ── FEATURED PROJECTS ────────────────────────────────
-    "project_1_name": "project-alpha",           # <-- CAMBIAR: repo name
-    "project_1_desc": "Short description here.", # <-- CAMBIAR: one-line description
-    "project_1_url": "github.com/draux-l/alpha", # <-- CAMBIAR: repo URL
-
-    "project_2_name": "project-beta",            # <-- CAMBIAR: repo name
-    "project_2_desc": "Short description here.", # <-- CAMBIAR: one-line description
-    "project_2_url": "github.com/draux-l/beta",  # <-- CAMBIAR: repo URL
-
     # ── CONTACT ──────────────────────────────────────────
     "contact_email": "llanosgarciadiego@gmail.com",       # <-- CAMBIAR: your email
     "contact_linkedin": "linkedin.com/in/diegollanosg",  # <-- CAMBIAR: your LinkedIn URL
-    "contact_discord": "TU_DISCORD#1234",        # <-- CAMBIAR: your Discord (or "")
+    "contact_discord": "draux.l",        # <-- CAMBIAR: your Discord (or "")
 }

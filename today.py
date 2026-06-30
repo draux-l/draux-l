@@ -16,7 +16,7 @@ from pathlib import Path
 import requests
 from dateutil import relativedelta
 from dotenv import load_dotenv
-from PIL import Image, ImageFilter, ImageOps
+from PIL import Image, ImageEnhance, ImageFilter, ImageOps
 
 from config import BIRTHDAY, PROFILE
 
@@ -25,7 +25,7 @@ load_dotenv()
 # ── constants ──────────────────────────────────────────────────────────────────
 
 ASCII_WIDTH = 50  # chars wide for left panel
-ASCII_RAMP = " .'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
+ASCII_RAMP = " .:-=+*#%@"  # 8-level ramp, dark to light
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
@@ -491,26 +491,32 @@ def force_close_file(cache_rows, cache_header):
 
 
 def image2ascii(image_path):
-    """Convert avatar.png to monochrome ASCII art.
+    """Convert avatar.png to high-contrast monochrome ASCII art.
 
-    Returns a list of strings. Uses autocontrast + unsharp mask
-    for maximum detail. No color — pure character density.
+    Designed for images with dark backgrounds — inverts, boosts contrast,
+    and applies aggressive histogram stretching so the figure pops.
     """
     img = Image.open(image_path).convert("L")
 
-    # 1. Stretch histogram
-    img = ImageOps.autocontrast(img, cutoff=1)
+    # 1. Invert so dark background → light, bright figure → dark characters
+    img = ImageOps.invert(img)
 
-    # 2. Sharpen edges
+    # 2. Aggressive contrast boost
+    img = ImageEnhance.Contrast(img).enhance(2.5)
+
+    # 3. Stretch histogram with higher cutoff
+    img = ImageOps.autocontrast(img, cutoff=5)
+
+    # 4. Sharpen edges
     img = img.filter(ImageFilter.UnsharpMask(radius=1, percent=100, threshold=2))
 
-    # 3. Resize (char is ~2x taller than wide)
+    # 5. Resize (char is ~2x taller than wide)
     aspect = img.height / img.width
     new_width = ASCII_WIDTH
     new_height = int(aspect * new_width * 0.5)
     img = img.resize((new_width, new_height), Image.LANCZOS)
 
-    # 4. Map brightness to character
+    # 6. Map brightness to character
     ramp = ASCII_RAMP
     ramp_len = len(ramp) - 1
 
@@ -816,7 +822,7 @@ def main():
 
     # 9. Generate ASCII art (monochrome — same output for both themes)
     print("Generating ASCII art...")
-    ascii_lines, ascii_time = perf_counter(image2ascii, "avatar.png")
+    ascii_lines, ascii_time = perf_counter(image2ascii, "avatar2.png")
     print_duration("ascii art", ascii_time)
 
     # 10. Generate SVGs
