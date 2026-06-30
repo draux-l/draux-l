@@ -10,24 +10,19 @@ ASCII art is hardcoded (paste your art in the variable below).
 import datetime
 import hashlib
 import os
+import struct
 import time
 from pathlib import Path
 
 import requests
 from dateutil import relativedelta
 from dotenv import load_dotenv
-from PIL import Image, ImageFilter, ImageOps
 
 from config import BIRTHDAY, PROFILE
 
 load_dotenv()
 
 # ── constants ──────────────────────────────────────────────────────────────────
-
-ASCII_WIDTH = 28  # chars wide for the left panel
-ASCII_RAMP = " .'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
-CHAR_PX = 9.6  # approximate pixel advance per char for Consolas at 16px
-GUTTER = 3  # chars of separation between ASCII art and text panel
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
@@ -499,49 +494,22 @@ def force_close_file(cache_rows, cache_header):
     print(f"Saved partial cache data to {filename}.")
 
 
-# ── ASCII art generator ────────────────────────────────────────────────────────
+# ── PNG dimensions reader ──────────────────────────────────────────────────────
 
 
-def image2ascii(image_path, width=ASCII_WIDTH):
-    """Convert avatar.png to high-quality monochrome ASCII art.
-
-    Returns a list of strings, one per line. Uses autocontrast, unsharp mask,
-    and a 15-level character ramp for maximum detail at small sizes.
-    """
-    img = Image.open(image_path).convert("L")
-
-    # 1. Stretch histogram to use full 0-255 range
-    img = ImageOps.autocontrast(img, cutoff=1)
-
-    # 2. Sharpen edges (critical for facial features at small sizes)
-    img = img.filter(ImageFilter.UnsharpMask(radius=1, percent=100, threshold=2))
-
-    # 3. Resize with correct aspect ratio for SVG monospace rendering
-    aspect = img.height / img.width
-    height = int(width * aspect * 0.6)
-    img = img.resize((width, height), Image.LANCZOS)
-
-    # 4. Map each pixel to a character from the density ramp
-    ramp = ASCII_RAMP
-    ramp_len = len(ramp) - 1
-
-    lines = []
-    for y in range(height):
-        chars = []
-        for x in range(width):
-            pixel = img.getpixel((x, y))
-            index = int(pixel / 255 * ramp_len)
-            chars.append(ramp[index])
-        lines.append("".join(chars))
-
-    return lines
+def get_png_dims(filepath):
+    """Read PNG width and height from the file header — no Pillow needed."""
+    with open(filepath, "rb") as f:
+        header = f.read(24)
+        w, h = struct.unpack(">II", header[16:24])
+    return w, h
 
 
 # ── SVG builder ────────────────────────────────────────────────────────────────
 
 
-def svg_builder(ascii_lines, profile, stats, theme="light"):
-    """Generate complete SVG string — neofetch-style with dynamic layout."""
+def svg_builder(img_width, img_height, profile, stats, theme="light"):
+    """Generate complete SVG string — neofetch-style with PNG image on the left."""
 
     # ── color scheme ────────────────────────────────────────────────────────
     if theme == "dark":
@@ -561,21 +529,25 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         add_fill = "#1a7f37"
         del_fill = "#cf222e"
 
-    # ── layout calculations ─────────────────────────────────────────────────
-    ascii_max_width = max(len(line) for line in ascii_lines) if ascii_lines else 0
-    left_x = 20
-    right_x = int(left_x + (ascii_max_width + GUTTER) * CHAR_PX)
-    ascii_height = len(ascii_lines) * 20  # px
+    # ── layout constants ────────────────────────────────────────────────────
+    LEFT_MARGIN = 25
+    IMG_WIDTH = 350               # px, fits ~40% of canvas with margins
+    RIGHT_X = 410                 # text panel start
+    CANVAS_WIDTH = 1000
 
-    # ── build text panel (capturing final y) ─────────────────────────────────
+    # image height preserving aspect ratio
+    img_display_h = int(IMG_WIDTH * img_height / img_width)
+    img_bottom = 30 + img_display_h
+
+    # ── build text panel ────────────────────────────────────────────────────
     text_svg = []
-    y = 30  # tracking cursor
+    y = 30
 
     def add_section_header(title, dash_count=24):
         nonlocal y
         dashes = "\u2014" * dash_count
         text_svg.append(
-            f'  <tspan x="{right_x}" y="{y}" fill="{main_fill}">'
+            f'  <tspan x="{RIGHT_X}" y="{y}" fill="{main_fill}">'
             f'- {title} {dashes}</tspan>\n'
         )
         y += 20
@@ -584,7 +556,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         nonlocal y
         dots = build_row_dots(label)
         text_svg.append(
-            f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
+            f'  <tspan x="{RIGHT_X}" y="{y}" class="cc">. </tspan>'
             f'<tspan class="key">{label}</tspan>:'
             f'<tspan class="cc">{dots}</tspan>'
             f'<tspan class="value">{value}</tspan>\n'
@@ -596,10 +568,10 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         y += px
 
     # header bar
-    header = f"{profile['username']}@{profile['hostname']}"
+    header_text = f"{profile['username']}@{profile['hostname']}"
     dashes = "\u2014" * 22
     text_svg.append(
-        f'  <tspan x="{right_x}" y="{y}">{header} {dashes}</tspan>\n'
+        f'  <tspan x="{RIGHT_X}" y="{y}">{header_text} {dashes}</tspan>\n'
     )
     y += 20
 
@@ -654,7 +626,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
     repos_dots = build_dot_string(repos_text, REPO_DATA_WIDTH)
     stars_dots = build_dot_string(stars_text, STAR_DATA_WIDTH)
     text_svg.append(
-        f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
+        f'  <tspan x="{RIGHT_X}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">Repos</tspan>:'
         f'<tspan class="cc">{repos_dots}</tspan>'
         f'<tspan class="value">{repos_text}</tspan>'
@@ -670,7 +642,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
     commits_dots = build_dot_string(commits_text, COMMIT_DATA_WIDTH)
     followers_dots = build_dot_string(followers_text, FOLLOWER_DATA_WIDTH)
     text_svg.append(
-        f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
+        f'  <tspan x="{RIGHT_X}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">Commits</tspan>:'
         f'<tspan class="cc">{commits_dots}</tspan>'
         f'<tspan class="value">{commits_text}</tspan>'
@@ -683,7 +655,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
     # LOC row
     loc_dots = build_dot_string(loc_net, LOC_DATA_WIDTH)
     text_svg.append(
-        f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
+        f'  <tspan x="{RIGHT_X}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">GitHub LOC</tspan>:'
         f'<tspan class="cc">{loc_dots}</tspan>'
         f'<tspan class="value">{loc_net}</tspan>'
@@ -693,19 +665,18 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         f'<tspan class="delColor">{loc_del}</tspan> )\n'
     )
 
-    last_text_y = y  # final y position of text content
+    last_text_y = y
+    text_height = last_text_y - 30
+    text_bottom = 30 + text_height
 
     # ── vertical centering ──────────────────────────────────────────────────
-    text_height = last_text_y - 30  # px from first to last text line
-    if ascii_height > text_height:
-        text_offset_y = (ascii_height - text_height) // 2
+    if img_bottom > text_bottom:
+        text_offset_y = (img_bottom - text_bottom) // 2
     else:
         text_offset_y = 0
 
-    # ── canvas size ────────────────────────────────────────────────────────
-    ascii_bottom = 30 + ascii_height
-    text_bottom = 30 + text_offset_y + text_height
-    canvas_height = max(ascii_bottom, text_bottom) + 30
+    # ── canvas height ──────────────────────────────────────────────────────
+    canvas_height = max(img_bottom, 30 + text_offset_y + text_height) + 30
 
     # ── build SVG ──────────────────────────────────────────────────────────
     svg = []
@@ -713,7 +684,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<svg xmlns="http://www.w3.org/2000/svg" '
         'font-family="Consolas,monospace" '
-        f'width="1000px" height="{canvas_height}px" '
+        f'width="{CANVAS_WIDTH}px" height="{canvas_height}px" '
         'font-size="16px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
@@ -723,19 +694,19 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         ".cc {fill: " + dot_fill + ";}\n"
         "text, tspan {white-space: pre;}\n"
         "</style>\n"
-        f'<rect width="1000px" height="{canvas_height}px" fill="{bg}" rx="15"/>\n'
+        f'<rect width="{CANVAS_WIDTH}px" height="{canvas_height}px" fill="{bg}" rx="15"/>\n'
     )
 
-    # ── left panel: ASCII art ──────────────────────────────────────────────
-    svg.append(f'<text x="{left_x}" y="30" fill="{main_fill}" class="ascii">\n')
-    for i, line in enumerate(ascii_lines):
-        line_y = 30 + i * 20
-        svg.append(f'  <tspan x="{left_x}" y="{line_y}">{line}</tspan>\n')
-    svg.append("</text>\n")
+    # ── left panel: PNG image ───────────────────────────────────────────────
+    svg.append(
+        f'<image x="{LEFT_MARGIN}" y="30" '
+        f'width="{IMG_WIDTH}px" height="{img_display_h}px" '
+        f'href="./avatar.png" />\n'
+    )
 
-    # ── right panel: text (with vertical offset if needed) ──────────────────
+    # ── right panel: text ──────────────────────────────────────────────────
     svg.append(f'<g transform="translate(0, {text_offset_y})">\n')
-    svg.append(f'<text x="{right_x}" y="30" fill="{main_fill}">\n')
+    svg.append(f'<text x="{RIGHT_X}" y="30" fill="{main_fill}">\n')
     svg.extend(text_svg)
     svg.append("</text>\n")
     svg.append("</g>\n")
@@ -823,23 +794,21 @@ def main():
         "contributed": contrib_data,
     }
 
-    # 9. Generate ASCII art from avatar.png
-    print("Generating ASCII art...")
-    ascii_lines, ascii_time = perf_counter(image2ascii, "avatar.png")
-    print_duration("ascii art", ascii_time)
+    # 9. Read avatar.png dimensions
+    png_w, png_h = get_png_dims("avatar.png")
 
-    # 10. Generate SVGs (same ASCII for both themes — monochrome)
+    # 10. Generate SVGs
     print("Generating SVGs...")
     with open("light_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="light"))
+        f.write(svg_builder(png_w, png_h, PROFILE, stats, theme="light"))
 
     with open("dark_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="dark"))
+        f.write(svg_builder(png_w, png_h, PROFILE, stats, theme="dark"))
 
     # timing summary
     total_runtime = (
         user_time + age_time + loc_time + commit_time
-        + star_time + repo_time + contrib_time + follower_time + ascii_time
+        + star_time + repo_time + contrib_time + follower_time
     )
     print(f"{'Total function time:':<21} {total_runtime:>11.4f} s")
     print(f"Total GitHub GraphQL API calls: {sum(QUERY_COUNT.values()):>3}")
