@@ -7,23 +7,25 @@ Generates light_mode.svg and dark_mode.svg from config data + GitHub API stats.
 ASCII art is hardcoded (paste your art in the variable below).
 """
 
-import base64
 import datetime
 import hashlib
 import os
-import struct
 import time
 from pathlib import Path
 
 import requests
 from dateutil import relativedelta
 from dotenv import load_dotenv
+from PIL import Image
 
 from config import BIRTHDAY, PROFILE
 
 load_dotenv()
 
 # ── constants ──────────────────────────────────────────────────────────────────
+
+ASCII_WIDTH = 25  # chars wide for left panel
+ASCII_RAMP = "@%#*+=-:. "  # 10-level ramp, dark to light
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
@@ -36,7 +38,6 @@ STAR_DATA_WIDTH = 14
 COMMIT_DATA_WIDTH = 22
 FOLLOWER_DATA_WIDTH = 10
 LOC_DATA_WIDTH = 25
-VALUE_COLUMN = 28  # char column where info row values start (from right_x)
 
 # runtime state
 HEADERS = {}
@@ -102,15 +103,6 @@ def build_dot_string(value_text, length):
         dot_map = {0: "", 1: " ", 2: ". "}
         return dot_map[just_len]
     return " " + ("." * just_len) + " "
-
-
-def build_row_dots(label, value_column=VALUE_COLUMN):
-    """Build dot string that aligns the value to start at value_column."""
-    prefix = f". {label}:"
-    dots_needed = value_column - len(prefix) - 1
-    if dots_needed <= 0:
-        return " "
-    return "." * dots_needed + " "
 
 
 def format_compact_number(value):
@@ -495,68 +487,112 @@ def force_close_file(cache_rows, cache_header):
     print(f"Saved partial cache data to {filename}.")
 
 
-# ── PNG dimensions reader ──────────────────────────────────────────────────────
+# ── ASCII art generator ────────────────────────────────────────────────────────
 
 
-def read_png(filepath):
-    """Read PNG dimensions and base64-encode it — no Pillow needed."""
-    with open(filepath, "rb") as f:
-        data = f.read()
-        w, h = struct.unpack(">II", data[16:24])
-        b64 = base64.b64encode(data).decode("ascii")
-    return w, h, b64
+def image2ascii(image_path, theme="light"):
+    """Convert avatar.png to ASCII art with cyan gradient per character.
+
+    Returns list of rows, each row is list of (char, hex_color) tuples.
+    """
+    img = Image.open(image_path).convert("L")
+
+    # Resize preserving aspect ratio (monospace char ≈ 2x taller than wide)
+    aspect = img.height / img.width
+    new_width = ASCII_WIDTH
+    new_height = int(aspect * new_width * 0.5)
+    img = img.resize((new_width, new_height), Image.LANCZOS)
+
+    ramp = ASCII_RAMP
+    ramp_len = len(ramp) - 1
+
+    # Cyan gradient per theme
+    if theme == "dark":
+        dark = (0, 77, 102)    # #004d66
+        bright = (0, 229, 255)  # #00e5ff
+    else:
+        dark = (0, 59, 77)      # #003b4d
+        bright = (0, 229, 255)  # #00e5ff
+
+    rows = []
+    for y in range(new_height):
+        row = []
+        for x in range(new_width):
+            pixel = img.getpixel((x, y))
+            char_idx = int(pixel / 255 * ramp_len)
+            char = ramp[char_idx]
+
+            t = pixel / 255
+            r = int(dark[0] + (bright[0] - dark[0]) * t)
+            g = int(dark[1] + (bright[1] - dark[1]) * t)
+            b = int(dark[2] + (bright[2] - dark[2]) * t)
+            color = f"#{r:02x}{g:02x}{b:02x}"
+
+            row.append((char, color))
+        rows.append(row)
+
+    return rows
+
+
+def build_ascii_svg(ascii_rows, start_x=15, start_y=30):
+    """Generate SVG text elements for the left panel with per-character coloring."""
+    parts = []
+    for row_idx, row in enumerate(ascii_rows):
+        y = start_y + row_idx * 20
+        parts.append(f'  <tspan x="{start_x}" y="{y}">')
+        for char, color in row:
+            escaped = char.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            parts.append(f'<tspan fill="{color}">{escaped}</tspan>')
+        parts.append("</tspan>\n")
+    return "".join(parts)
 
 
 # ── SVG builder ────────────────────────────────────────────────────────────────
 
 
-def svg_builder(img_width, img_height, img_b64, profile, stats, theme="light"):
-    """Generate complete SVG string — neofetch-style with base64-inlined PNG on the left."""
+def svg_builder(ascii_rows, profile, stats, theme="light"):
+    """Generate complete SVG — neofetch-style with ASCII art (left) + stats (right)."""
 
     # ── color scheme ────────────────────────────────────────────────────────
     if theme == "dark":
         bg = "#0d1117"
+        main_fill = "#c9d1d9"
         key_fill = "#ffa657"
         value_fill = "#a5d6ff"
         dot_fill = "#616e7f"
-        main_fill = "#c9d1d9"
         add_fill = "#3fb950"
         del_fill = "#f85149"
     else:
         bg = "#f6f8fa"
+        main_fill = "#24292f"
         key_fill = "#953800"
         value_fill = "#0a3069"
         dot_fill = "#c2cfde"
-        main_fill = "#24292f"
         add_fill = "#1a7f37"
         del_fill = "#cf222e"
 
     # ── layout constants ────────────────────────────────────────────────────
-    LEFT_MARGIN = 25
-    IMG_WIDTH = 350               # px, fits ~40% of canvas with margins
-    RIGHT_X = 410                 # text panel start
-    CANVAS_WIDTH = 1000
-
-    # image height preserving aspect ratio
-    img_display_h = int(IMG_WIDTH * img_height / img_width)
-    img_bottom = 30 + img_display_h
+    CANVAS_W = 985
+    CANVAS_H = 530
+    LEFT_X = 15
+    RIGHT_X = 390
 
     # ── build text panel ────────────────────────────────────────────────────
     text_svg = []
     y = 30
 
-    def add_section_header(title, dash_count=24):
+    def add_section_header(title, dash_count=22):
         nonlocal y
         dashes = "\u2014" * dash_count
         text_svg.append(
-            f'  <tspan x="{RIGHT_X}" y="{y}" fill="{main_fill}">'
+            f'  <tspan x="{RIGHT_X}" y="{y}">'
             f'- {title} {dashes}</tspan>\n'
         )
         y += 20
 
-    def add_info_row(label, value):
+    def add_info_row(label, value, target_width=45):
         nonlocal y
-        dots = build_row_dots(label)
+        dots = build_dot_string(value, target_width)
         text_svg.append(
             f'  <tspan x="{RIGHT_X}" y="{y}" class="cc">. </tspan>'
             f'<tspan class="key">{label}</tspan>:'
@@ -571,45 +607,45 @@ def svg_builder(img_width, img_height, img_b64, profile, stats, theme="light"):
 
     # header bar
     header_text = f"{profile['username']}@{profile['hostname']}"
-    dashes = "\u2014" * 22
+    dashes = "\u2014" * 24
     text_svg.append(
         f'  <tspan x="{RIGHT_X}" y="{y}">{header_text} {dashes}</tspan>\n'
     )
     y += 20
 
     # ── ABOUT ────────────────────────────────────────────────────────────
-    add_info_row("About", profile["about_bio"])
-    add_info_row("Location", profile["location"])
+    add_info_row("About", profile["about_bio"], 45)
+    add_info_row("Location", profile["location"], 45)
     add_gap(10)
 
     # ── TECH STACK ───────────────────────────────────────────────────────
     add_section_header("Tech Stack")
-    add_info_row("Languages", profile["stack_languages"])
-    add_info_row("Frontend", profile["stack_frontend"])
-    add_info_row("Backend", profile["stack_backend"])
-    add_info_row("DevOps", profile["stack_devops"])
-    add_info_row("Tools", profile["stack_tools"])
+    add_info_row("Languages", profile["stack_languages"], 45)
+    add_info_row("Frontend", profile["stack_frontend"], 45)
+    add_info_row("Backend", profile["stack_backend"], 45)
+    add_info_row("DevOps", profile["stack_devops"], 45)
+    add_info_row("Tools", profile["stack_tools"], 45)
     add_gap(10)
 
     # ── CURRENTLY ────────────────────────────────────────────────────────
     add_section_header("Currently")
-    add_info_row("Learning", profile["learning"])
-    add_info_row("Building", profile["building"])
-    add_info_row("Reading", profile["reading"])
+    add_info_row("Learning", profile["learning"], 45)
+    add_info_row("Building", profile["building"], 45)
+    add_info_row("Reading", profile["reading"], 45)
     add_gap(10)
 
     # ── FEATURED ─────────────────────────────────────────────────────────
     add_section_header("Featured")
-    add_info_row(profile["project_1_name"], profile["project_1_desc"])
-    add_info_row(profile["project_2_name"], profile["project_2_desc"])
+    add_info_row(profile["project_1_name"], profile["project_1_desc"], 45)
+    add_info_row(profile["project_2_name"], profile["project_2_desc"], 45)
     add_gap(10)
 
     # ── CONTACT ──────────────────────────────────────────────────────────
     add_section_header("Contact")
-    add_info_row("Email", profile["contact_email"])
-    add_info_row("LinkedIn", profile["contact_linkedin"])
+    add_info_row("Email", profile["contact_email"], 45)
+    add_info_row("LinkedIn", profile["contact_linkedin"], 45)
     if profile.get("contact_discord"):
-        add_info_row("Discord", profile["contact_discord"])
+        add_info_row("Discord", profile["contact_discord"], 45)
     add_gap(10)
 
     # ── GITHUB STATS ─────────────────────────────────────────────────────
@@ -667,26 +703,13 @@ def svg_builder(img_width, img_height, img_b64, profile, stats, theme="light"):
         f'<tspan class="delColor">{loc_del}</tspan> )\n'
     )
 
-    last_text_y = y
-    text_height = last_text_y - 30
-    text_bottom = 30 + text_height
-
-    # ── vertical centering ──────────────────────────────────────────────────
-    if img_bottom > text_bottom:
-        text_offset_y = (img_bottom - text_bottom) // 2
-    else:
-        text_offset_y = 0
-
-    # ── canvas height ──────────────────────────────────────────────────────
-    canvas_height = max(img_bottom, 30 + text_offset_y + text_height) + 30
-
     # ── build SVG ──────────────────────────────────────────────────────────
     svg = []
     svg.append(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<svg xmlns="http://www.w3.org/2000/svg" '
         'font-family="Consolas,monospace" '
-        f'width="{CANVAS_WIDTH}px" height="{canvas_height}px" '
+        f'width="{CANVAS_W}px" height="{CANVAS_H}px" '
         'font-size="16px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
@@ -696,22 +719,18 @@ def svg_builder(img_width, img_height, img_b64, profile, stats, theme="light"):
         ".cc {fill: " + dot_fill + ";}\n"
         "text, tspan {white-space: pre;}\n"
         "</style>\n"
-        f'<rect width="{CANVAS_WIDTH}px" height="{canvas_height}px" fill="{bg}" rx="15"/>\n'
+        f'<rect width="{CANVAS_W}px" height="{CANVAS_H}px" fill="{bg}" rx="15"/>\n'
     )
 
-    # ── left panel: PNG image ───────────────────────────────────────────────
-    svg.append(
-        f'<image x="{LEFT_MARGIN}" y="30" '
-        f'width="{IMG_WIDTH}px" height="{img_display_h}px" '
-        f'href="data:image/png;base64,{img_b64}" />\n'
-    )
+    # ── left panel: ASCII art ──────────────────────────────────────────────
+    svg.append(f'<text x="{LEFT_X}" y="30" fill="{main_fill}">\n')
+    svg.append(build_ascii_svg(ascii_rows, start_x=LEFT_X, start_y=30))
+    svg.append("</text>\n")
 
     # ── right panel: text ──────────────────────────────────────────────────
-    svg.append(f'<g transform="translate(0, {text_offset_y})">\n')
     svg.append(f'<text x="{RIGHT_X}" y="30" fill="{main_fill}">\n')
     svg.extend(text_svg)
     svg.append("</text>\n")
-    svg.append("</g>\n")
 
     svg.append("</svg>\n")
     return "".join(svg)
@@ -796,21 +815,24 @@ def main():
         "contributed": contrib_data,
     }
 
-    # 9. Read avatar.png (dimensions + base64)
-    png_w, png_h, png_b64 = read_png("avatar.png")
+    # 9. Generate ASCII art from avatar.png (different colors per theme)
+    print("Generating ASCII art...")
+    ascii_light, ascii_time = perf_counter(image2ascii, "avatar.png", "light")
+    print_duration("ascii art (light)", ascii_time)
+    ascii_dark, _ = perf_counter(image2ascii, "avatar.png", "dark")
 
     # 10. Generate SVGs
     print("Generating SVGs...")
     with open("light_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(png_w, png_h, png_b64, PROFILE, stats, theme="light"))
+        f.write(svg_builder(ascii_light, PROFILE, stats, theme="light"))
 
     with open("dark_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(png_w, png_h, png_b64, PROFILE, stats, theme="dark"))
+        f.write(svg_builder(ascii_dark, PROFILE, stats, theme="dark"))
 
     # timing summary
     total_runtime = (
         user_time + age_time + loc_time + commit_time
-        + star_time + repo_time + contrib_time + follower_time
+        + star_time + repo_time + contrib_time + follower_time + ascii_time
     )
     print(f"{'Total function time:':<21} {total_runtime:>11.4f} s")
     print(f"Total GitHub GraphQL API calls: {sum(QUERY_COUNT.values()):>3}")
