@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="1050px" height="600px" font-size="16px">
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="1050px" height="580px" font-size="16px">
 <style>
 .key {fill: #953800;}
 .value {fill: #0a3069;}
@@ -8,61 +8,60 @@
 .cc {fill: #c2cfde;}
 text, tspan {white-space: pre;}
 </style>
-<rect width="1050px" height="600px" fill="#f6f8fa" rx="15"/>
+<rect width="1050px" height="580px" fill="#f6f8fa" rx="15"/>
 <text x="15" y="30" fill="#24292f">
   <tspan x="15" y="30">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
   <tspan x="15" y="50">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="70">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="90">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="110">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="130">@@@@@@@@@@@@@@@@@@@@@@@@%%@@@@@@@@%%@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="150">@@@@@@@@@@@@@@@@@@@@@@%%@@%@@@@%%%@@%@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="170">@@@@@@@@@@@@@@@@@@@@%%@@#+@%%%%@@@+%@%@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="190">@@@@@@@@@@@@@@@@@%%%@@#-..:@@@@%*. .+%%@@@@@@@@@@@</tspan>
-  <tspan x="15" y="210">@@@@@@@@%%%@@@@%%@@@#-.-#* -#%+: =@.-@%@@@@@@@@@@@</tspan>
-  <tspan x="15" y="230">@@@@@@@@@@@%@@@@@*+=  -+-        .+.=%%@@@@@@@@@@@</tspan>
-  <tspan x="15" y="250">@@@@@@@%#*%@%@%*:                   =@%@@@@@@@@@@@</tspan>
-  <tspan x="15" y="270">@@@@@%@#  :*@@%                     =%%@@@@@@@@@@@</tspan>
-  <tspan x="15" y="290">@@@@@%@%-  :*@%         :-       -   -@%@@@@@@@@@@</tspan>
-  <tspan x="15" y="310">@@@@@@%@@:   ..         -+      .#   :@%@@@@@@@@@@</tspan>
-  <tspan x="15" y="330">@@@@@@@%%@*+-                       -*%%@@@@@@@@@@</tspan>
-  <tspan x="15" y="350">@@@@@@@@@%@@@%%%%+--             --#@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="370">@@@@@@@@@@%%%@@@@@@@#############@@@@%@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="390">@@@@@@@@@@@@@%%%%%%%@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="410">@@@@@@@@@@@@@@@@@@@%%%%%%%%%%%%%%@@@@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="430">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="450">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
-  <tspan x="15" y="470">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="15" y="70">@@@@@@@@@@@@@@@@@@@@@%%%%%%%%%%@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="15" y="90">@@@@@@@%%%@@@@@@@@@%%@@@@@@@@@@%%%@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="15" y="110">@@@@@@%@@@@@@@@@@@%@@%#++++++#%@@@%@@@@@@@@@@@@@@@</tspan>
+  <tspan x="15" y="130">@@@@@@@=*#%@@@@@@%@*==+#####*==+*%@@%@@@@@@@@@@@@@</tspan>
+  <tspan x="15" y="150">@@@@@%# .-#@%@@%%@-+%@@@@@@@@@@#*=+%@%@@@@@@@@@@@@</tspan>
+  <tspan x="15" y="170">@@@%%+  +#@@%@@@@-=@@%%%%%%%%%@@@%*=*@%@@@@@@@@@@@</tspan>
+  <tspan x="15" y="190">@@@@@@##**+%@%%%*-%@@@@@@@@@@@@%%@@%-+@%@@@@@@@@@@</tspan>
+  <tspan x="15" y="210">@@@@@@@@#--%@@@@.#@%%%@%%@%%%@@@@@%@#.%%@@@@@@@@@@</tspan>
+  <tspan x="15" y="230">@@@@@@%%@%@%%*+*:*%. #@@@@# :%%@@@@%%+:@%@@@@@@@@@</tspan>
+  <tspan x="15" y="250">@@@@@@@@%@%%=:%*.*@**%@##@%*#@%@@@@%%%-+@%@@@@@@@@</tspan>
+  <tspan x="15" y="270">@@@@@@@@@%%%#=+%:*%@@@@##@@@@%%@@@@@%@%-+@%@@@@@@@</tspan>
+  <tspan x="15" y="290">@@@@@@@@@@@@@@#+ #@%%@@@@@%%-=@%%@@@@%@#:#%%@@@@@@</tspan>
+  <tspan x="15" y="310">@@@@@@@@@@@@%%@@==%%%@@%%@%%+-++%%@@@@%@=-%%%@@@@@</tspan>
+  <tspan x="15" y="330">@@@@@@@@@@@@@@%%@.#@%@@@@@@%@%#%@@@@@@@%@==@%%@@@@</tspan>
+  <tspan x="15" y="350">@@@@@@@@@@@@@@@@%.%@%%%%%%%%%@@@@@@@@@@%%@==@@@@@@</tspan>
+  <tspan x="15" y="370">@@@@@@@@@@@@@@@%%+-%@@@@@@@@@@@@@%%%@@@@@%%==#%%@@</tspan>
+  <tspan x="15" y="390">@@@@@@@@@@@@@@@@%@+=++++#%%#**#%%@@@%%%#===+-=@%@@</tspan>
+  <tspan x="15" y="410">@@@@@@@@@@@@@@@@@%@%****+==+**++++++=+++#%%%@@@@@@</tspan>
+  <tspan x="15" y="430">@@@@@@@@@@@@@@@@@@%@@@@@@@@@@@@@%###@@@@@@@@@%@@@@</tspan>
+  <tspan x="15" y="450">@@@@@@@@@@@@@@@@@@@%%%%%%%%%%%%%@@@@%%%%%@@@@@@@@@</tspan>
+  <tspan x="15" y="470">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%@@@@@@@@@@@@@@</tspan>
   <tspan x="15" y="490">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
   <tspan x="15" y="510">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
 </text>
 <g transform="translate(0, 0)">
 <text x="510" y="30" fill="#24292f">
   <tspan x="510" y="30">draux-l@dllanos ————————————————————————</tspan>
-  <tspan x="510" y="50" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc"></tspan><tspan class="value">Software Developer | Data enthusiast | Lifelong learner</tspan>
+  <tspan x="510" y="50" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">Software Developer | Data enthusiast</tspan>
   <tspan x="510" y="70" class="cc">. </tspan><tspan class="key">Location</tspan>:<tspan class="cc"> .............................. </tspan><tspan class="value">Arequipa - Perú</tspan>
-  <tspan x="510" y="90" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc"></tspan><tspan class="value">Backend developer with a passion for data science and continuous learning. I volunteer in my community and I'm always looking for opportunities to grow.</tspan>
+  <tspan x="510" y="90" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc"></tspan><tspan class="value"> Backend developer with a passion for data  science and continuous learning.  I volunteer in my community and I'm always  looking for opportunities to grow.</tspan>
   <tspan x="510" y="120">- Tech Stack ——————————————————————</tspan>
   <tspan x="510" y="140" class="cc">. </tspan><tspan class="key">Core</tspan>:<tspan class="cc"></tspan><tspan class="value">Python, Django, JavaScript, TypeScript, React</tspan>
-  <tspan x="510" y="160" class="cc">. </tspan><tspan class="key">DevOps</tspan>:<tspan class="cc"> ....................................... </tspan><tspan class="value">Docker</tspan>
+  <tspan x="510" y="160" class="cc">. </tspan><tspan class="key">DevOps</tspan>:<tspan class="cc"> ................. </tspan><tspan class="value">Docker, GitHub, Oracle Cloud</tspan>
   <tspan x="510" y="180" class="cc">. </tspan><tspan class="key">Data</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">Pandas, NumPy, Statistics</tspan>
   <tspan x="510" y="200" class="cc">. </tspan><tspan class="key">OS</tspan>:<tspan class="cc"> ...................... </tspan><tspan class="value">Windows, Ubuntu (Linux)</tspan>
   <tspan x="510" y="230">- Currently ——————————————————————</tspan>
   <tspan x="510" y="250" class="cc">. </tspan><tspan class="key">Learning</tspan>:<tspan class="cc"> ................... </tspan><tspan class="value">Data Science (Alura LATAM)</tspan>
-  <tspan x="510" y="270" class="cc">. </tspan><tspan class="key">Building</tspan>:<tspan class="cc"> ................. </tspan><tspan class="value">Backend projects with Django</tspan>
-  <tspan x="510" y="290" class="cc">. </tspan><tspan class="key">Goals</tspan>:<tspan class="cc">. </tspan><tspan class="value">Looking for opportunities that help me grow</tspan>
-  <tspan x="510" y="320">- Languages ——————————————————————</tspan>
-  <tspan x="510" y="340" class="cc">. </tspan><tspan class="key">Spoken</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">Spanish (native), English (learning)</tspan>
-  <tspan x="510" y="370">- Hobbies ——————————————————————</tspan>
-  <tspan x="510" y="390" class="cc">. </tspan><tspan class="key">Interests</tspan>:<tspan class="cc">. </tspan><tspan class="value">Community volunteering, continuous learning</tspan>
-  <tspan x="510" y="420">- Contact ——————————————————————</tspan>
-  <tspan x="510" y="440" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">llanosgarciadiego@gmail.com</tspan>
-  <tspan x="510" y="460" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> ................. </tspan><tspan class="value">linkedin.com/in/diegollanosg</tspan>
-  <tspan x="510" y="480" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> ...................................... </tspan><tspan class="value">draux.l</tspan>
-  <tspan x="510" y="510">- GitHub Stats ——————————————————————</tspan>
-  <tspan x="510" y="530" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
-  <tspan x="510" y="550" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">44</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">1</tspan>
-  <tspan x="510" y="570" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">106,448</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">110.1K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">3.6K</tspan> )
+  <tspan x="510" y="270" class="cc">. </tspan><tspan class="key">Goals</tspan>:<tspan class="cc">. </tspan><tspan class="value">Looking for opportunities that help me grow</tspan>
+  <tspan x="510" y="300">- Languages ——————————————————————</tspan>
+  <tspan x="510" y="320" class="cc">. </tspan><tspan class="key">Spoken</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">Spanish (native), English (learning)</tspan>
+  <tspan x="510" y="350">- Hobbies ——————————————————————</tspan>
+  <tspan x="510" y="370" class="cc">. </tspan><tspan class="key">Interests</tspan>:<tspan class="cc">. </tspan><tspan class="value">Community volunteering, continuous learning</tspan>
+  <tspan x="510" y="400">- Contact ——————————————————————</tspan>
+  <tspan x="510" y="420" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">llanosgarciadiego@gmail.com</tspan>
+  <tspan x="510" y="440" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> ................. </tspan><tspan class="value">linkedin.com/in/diegollanosg</tspan>
+  <tspan x="510" y="460" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> ...................................... </tspan><tspan class="value">draux.l</tspan>
+  <tspan x="510" y="490">- GitHub Stats ——————————————————————</tspan>
+  <tspan x="510" y="510" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
+  <tspan x="510" y="530" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">45</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">1</tspan>
+  <tspan x="510" y="550" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">106,448</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">110.1K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">3.6K</tspan> )
 </text>
 </g>
 </svg>
