@@ -9,50 +9,33 @@
 text, tspan {white-space: pre;}
 </style>
 <rect width="1000px" height="570px" fill="#f6f8fa" rx="15"/>
-<text x="20" y="30" fill="#24292f" class="ascii">
-  <tspan x="20" y="30">                            </tspan>
-  <tspan x="20" y="50">                            </tspan>
-  <tspan x="20" y="70">            ^lll`           </tspan>
-  <tspan x="20" y="90">    )l    ;]?~~~?[>         </tspan>
-  <tspan x="20" y="110">  .nk~ . !|^     '>];       </tspan>
-  <tspan x="20" y="130">   <-1^  t^        `f:      </tspan>
-  <tspan x="20" y="150">     -`;-tlc  'X: . !/      </tspan>
-  <tspan x="20" y="170">      ^f-r^- I.-     {~     </tspan>
-  <tspan x="20" y="190">       :[n   . ^['.  .f^    </tspan>
-  <tspan x="20" y="210">        ./;.   ,1+.   >(    </tspan>
-  <tspan x="20" y="230">       . )+            _?   </tspan>
-  <tspan x="20" y="250">         :1!l:',I.  .'!~j?  </tspan>
-  <tspan x="20" y="270">          '<~+?_~?--?]>;,^  </tspan>
-  <tspan x="20" y="290">                  .`        </tspan>
-  <tspan x="20" y="310">                            </tspan>
-  <tspan x="20" y="330">                            </tspan>
-</text>
+<image x="25" y="30" width="350px" height="350px" href="./avatar.png" />
 <g transform="translate(0, 0)">
-<text x="317" y="30" fill="#24292f">
-  <tspan x="317" y="30">draux-l@draux ——————————————————————</tspan>
-  <tspan x="317" y="50" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc">................... </tspan><tspan class="value">Full-stack dev | Open source</tspan>
-  <tspan x="317" y="70" class="cc">. </tspan><tspan class="key">Location</tspan>:<tspan class="cc">................ </tspan><tspan class="value">Buenos Aires, Argentina</tspan>
-  <tspan x="317" y="100" fill="#24292f">- Tech Stack ————————————————————————</tspan>
-  <tspan x="317" y="120" class="cc">. </tspan><tspan class="key">Languages</tspan>:<tspan class="cc">............... </tspan><tspan class="value">Python, Go, TypeScript</tspan>
-  <tspan x="317" y="140" class="cc">. </tspan><tspan class="key">Frontend</tspan>:<tspan class="cc">................ </tspan><tspan class="value">React, Next.js</tspan>
-  <tspan x="317" y="160" class="cc">. </tspan><tspan class="key">Backend</tspan>:<tspan class="cc">................. </tspan><tspan class="value">FastAPI, Echo, Node.js</tspan>
-  <tspan x="317" y="180" class="cc">. </tspan><tspan class="key">DevOps</tspan>:<tspan class="cc">.................. </tspan><tspan class="value">Docker, GitHub Actions</tspan>
-  <tspan x="317" y="200" class="cc">. </tspan><tspan class="key">Tools</tspan>:<tspan class="cc">................... </tspan><tspan class="value">Neovim, Tmux, Git, Zellij</tspan>
-  <tspan x="317" y="230" fill="#24292f">- Currently ————————————————————————</tspan>
-  <tspan x="317" y="250" class="cc">. </tspan><tspan class="key">Learning</tspan>:<tspan class="cc">................ </tspan><tspan class="value">Rust, Kubernetes</tspan>
-  <tspan x="317" y="270" class="cc">. </tspan><tspan class="key">Building</tspan>:<tspan class="cc">................ </tspan><tspan class="value">CLI tools, side projects</tspan>
-  <tspan x="317" y="290" class="cc">. </tspan><tspan class="key">Reading</tspan>:<tspan class="cc">................. </tspan><tspan class="value">Clean Architecture</tspan>
-  <tspan x="317" y="320" fill="#24292f">- Featured ————————————————————————</tspan>
-  <tspan x="317" y="340" class="cc">. </tspan><tspan class="key">project-alpha</tspan>:<tspan class="cc">........... </tspan><tspan class="value">Short description here.</tspan>
-  <tspan x="317" y="360" class="cc">. </tspan><tspan class="key">project-beta</tspan>:<tspan class="cc">............ </tspan><tspan class="value">Short description here.</tspan>
-  <tspan x="317" y="390" fill="#24292f">- Contact ————————————————————————</tspan>
-  <tspan x="317" y="410" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc">................... </tspan><tspan class="value">TU_EMAIL@gmail.com</tspan>
-  <tspan x="317" y="430" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc">................ </tspan><tspan class="value">linkedin.com/in/TU_USER</tspan>
-  <tspan x="317" y="450" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc">................. </tspan><tspan class="value">TU_DISCORD#1234</tspan>
-  <tspan x="317" y="480" fill="#24292f">- GitHub Stats ————————————————————————</tspan>
-  <tspan x="317" y="500" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
-  <tspan x="317" y="520" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">34</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">1</tspan>
-  <tspan x="317" y="540" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">106,432</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">109.8K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">3.3K</tspan> )
+<text x="410" y="30" fill="#24292f">
+  <tspan x="410" y="30">draux-l@draux ——————————————————————</tspan>
+  <tspan x="410" y="50" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc">................... </tspan><tspan class="value">Full-stack dev | Open source</tspan>
+  <tspan x="410" y="70" class="cc">. </tspan><tspan class="key">Location</tspan>:<tspan class="cc">................ </tspan><tspan class="value">Buenos Aires, Argentina</tspan>
+  <tspan x="410" y="100" fill="#24292f">- Tech Stack ————————————————————————</tspan>
+  <tspan x="410" y="120" class="cc">. </tspan><tspan class="key">Languages</tspan>:<tspan class="cc">............... </tspan><tspan class="value">Python, Go, TypeScript</tspan>
+  <tspan x="410" y="140" class="cc">. </tspan><tspan class="key">Frontend</tspan>:<tspan class="cc">................ </tspan><tspan class="value">React, Next.js</tspan>
+  <tspan x="410" y="160" class="cc">. </tspan><tspan class="key">Backend</tspan>:<tspan class="cc">................. </tspan><tspan class="value">FastAPI, Echo, Node.js</tspan>
+  <tspan x="410" y="180" class="cc">. </tspan><tspan class="key">DevOps</tspan>:<tspan class="cc">.................. </tspan><tspan class="value">Docker, GitHub Actions</tspan>
+  <tspan x="410" y="200" class="cc">. </tspan><tspan class="key">Tools</tspan>:<tspan class="cc">................... </tspan><tspan class="value">Neovim, Tmux, Git, Zellij</tspan>
+  <tspan x="410" y="230" fill="#24292f">- Currently ————————————————————————</tspan>
+  <tspan x="410" y="250" class="cc">. </tspan><tspan class="key">Learning</tspan>:<tspan class="cc">................ </tspan><tspan class="value">Rust, Kubernetes</tspan>
+  <tspan x="410" y="270" class="cc">. </tspan><tspan class="key">Building</tspan>:<tspan class="cc">................ </tspan><tspan class="value">CLI tools, side projects</tspan>
+  <tspan x="410" y="290" class="cc">. </tspan><tspan class="key">Reading</tspan>:<tspan class="cc">................. </tspan><tspan class="value">Clean Architecture</tspan>
+  <tspan x="410" y="320" fill="#24292f">- Featured ————————————————————————</tspan>
+  <tspan x="410" y="340" class="cc">. </tspan><tspan class="key">project-alpha</tspan>:<tspan class="cc">........... </tspan><tspan class="value">Short description here.</tspan>
+  <tspan x="410" y="360" class="cc">. </tspan><tspan class="key">project-beta</tspan>:<tspan class="cc">............ </tspan><tspan class="value">Short description here.</tspan>
+  <tspan x="410" y="390" fill="#24292f">- Contact ————————————————————————</tspan>
+  <tspan x="410" y="410" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc">................... </tspan><tspan class="value">TU_EMAIL@gmail.com</tspan>
+  <tspan x="410" y="430" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc">................ </tspan><tspan class="value">linkedin.com/in/TU_USER</tspan>
+  <tspan x="410" y="450" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc">................. </tspan><tspan class="value">TU_DISCORD#1234</tspan>
+  <tspan x="410" y="480" fill="#24292f">- GitHub Stats ————————————————————————</tspan>
+  <tspan x="410" y="500" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
+  <tspan x="410" y="520" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">35</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">1</tspan>
+  <tspan x="410" y="540" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">106,400</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">109.8K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">3.4K</tspan> )
 </text>
 </g>
 </svg>
