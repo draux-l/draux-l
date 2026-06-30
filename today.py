@@ -26,6 +26,8 @@ load_dotenv()
 
 ASCII_WIDTH = 28  # chars wide for the left panel
 ASCII_RAMP = " .:-=+*#%@"  # 10-level ramp, dark to light
+CHAR_PX = 9.6  # approximate pixel advance per char for Consolas at 16px
+GUTTER = 3  # chars of separation between ASCII art and text panel
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
@@ -508,9 +510,9 @@ def image2ascii(image_path, width=ASCII_WIDTH):
     """
     img = Image.open(image_path).convert("L")
 
-    # Adjust height for monospace aspect ratio (char height ≈ 2x char width)
+    # Adjust height for monospace render (char cell ≈ 1.67:1 in SVG)
     aspect = img.height / img.width
-    height = int(width * aspect * 0.5)
+    height = int(width * aspect * 0.6)
     img = img.resize((width, height), Image.LANCZOS)
 
     ramp = ASCII_RAMP
@@ -532,7 +534,7 @@ def image2ascii(image_path, width=ASCII_WIDTH):
 
 
 def svg_builder(ascii_lines, profile, stats, theme="light"):
-    """Generate complete SVG string from ASCII art lines, profile config, and stats."""
+    """Generate complete SVG string — neofetch-style with dynamic layout."""
 
     # ── color scheme ────────────────────────────────────────────────────────
     if theme == "dark":
@@ -552,98 +554,85 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         add_fill = "#1a7f37"
         del_fill = "#cf222e"
 
-    svg = []
-    svg.append(
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<svg xmlns="http://www.w3.org/2000/svg" '
-        'font-family="Consolas,monospace" width="1000px" height="570px" '
-        'font-size="16px">\n'
-        "<style>\n"
-        ".key {fill: " + key_fill + ";}\n"
-        ".value {fill: " + value_fill + ";}\n"
-        ".addColor {fill: " + add_fill + ";}\n"
-        ".delColor {fill: " + del_fill + ";}\n"
-        ".cc {fill: " + dot_fill + ";}\n"
-        "text, tspan {white-space: pre;}\n"
-        "</style>\n"
-        f'<rect width="1000px" height="570px" fill="{bg}" rx="15"/>\n'
-    )
-
-    # ── left panel: ASCII art (monochrome, no per-character coloring) ───────
+    # ── layout calculations ─────────────────────────────────────────────────
+    ascii_max_width = max(len(line) for line in ascii_lines) if ascii_lines else 0
     left_x = 20
-    svg.append(f'<text x="{left_x}" y="30" fill="{main_fill}" class="ascii">\n')
-    for i, line in enumerate(ascii_lines):
-        y = 30 + i * 20
-        svg.append(f'  <tspan x="{left_x}" y="{y}">{line}</tspan>\n')
-    svg.append("</text>\n")
+    right_x = int(left_x + (ascii_max_width + GUTTER) * CHAR_PX)
+    ascii_height = len(ascii_lines) * 20  # px
 
-    # ── right panel: info + stats ───────────────────────────────────────────
-    right_x = 370
+    # ── build text panel (capturing final y) ─────────────────────────────────
+    text_svg = []
+    y = 30  # tracking cursor
 
-    # helpers
-    def add_section_header(y, title, dash_count=32):
+    def add_section_header(title, dash_count=24):
+        nonlocal y
         dashes = "\u2014" * dash_count
-        svg.append(
+        text_svg.append(
             f'  <tspan x="{right_x}" y="{y}" fill="{main_fill}">'
             f'- {title} {dashes}</tspan>\n'
         )
+        y += 20
 
-    def add_info_row(y, label, value):
+    def add_info_row(label, value):
+        nonlocal y
         dots = build_row_dots(label)
-        svg.append(
+        text_svg.append(
             f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
             f'<tspan class="key">{label}</tspan>:'
             f'<tspan class="cc">{dots}</tspan>'
             f'<tspan class="value">{value}</tspan>\n'
         )
+        y += 20
 
-    def add_blank(y):
-        svg.append(f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>\n')
-
-    svg.append(f'<text x="{right_x}" y="30" fill="{main_fill}">\n')
+    def add_gap(px=10):
+        nonlocal y
+        y += px
 
     # header bar
     header = f"{profile['username']}@{profile['hostname']}"
-    dashes = "\u2014" * 28
-    svg.append(
-        f'  <tspan x="{right_x}" y="30">{header} {dashes}</tspan>\n'
+    dashes = "\u2014" * 22
+    text_svg.append(
+        f'  <tspan x="{right_x}" y="{y}">{header} {dashes}</tspan>\n'
     )
-
-    y = 50
+    y += 20
 
     # ── ABOUT ────────────────────────────────────────────────────────────
-    add_info_row(y, "About", profile["about_bio"]); y += 20
-    add_info_row(y, "Location", profile["location"]); y += 30
+    add_info_row("About", profile["about_bio"])
+    add_info_row("Location", profile["location"])
+    add_gap(10)
 
     # ── TECH STACK ───────────────────────────────────────────────────────
-    add_section_header(y, "Tech Stack"); y += 20
-    add_info_row(y, "Languages", profile["stack_languages"]); y += 20
-    add_info_row(y, "Frontend", profile["stack_frontend"]); y += 20
-    add_info_row(y, "Backend", profile["stack_backend"]); y += 20
-    add_info_row(y, "DevOps", profile["stack_devops"]); y += 20
-    add_info_row(y, "Tools", profile["stack_tools"]); y += 30
+    add_section_header("Tech Stack")
+    add_info_row("Languages", profile["stack_languages"])
+    add_info_row("Frontend", profile["stack_frontend"])
+    add_info_row("Backend", profile["stack_backend"])
+    add_info_row("DevOps", profile["stack_devops"])
+    add_info_row("Tools", profile["stack_tools"])
+    add_gap(10)
 
     # ── CURRENTLY ────────────────────────────────────────────────────────
-    add_section_header(y, "Currently"); y += 20
-    add_info_row(y, "Learning", profile["learning"]); y += 20
-    add_info_row(y, "Building", profile["building"]); y += 20
-    add_info_row(y, "Reading", profile["reading"]); y += 30
+    add_section_header("Currently")
+    add_info_row("Learning", profile["learning"])
+    add_info_row("Building", profile["building"])
+    add_info_row("Reading", profile["reading"])
+    add_gap(10)
 
     # ── FEATURED ─────────────────────────────────────────────────────────
-    add_section_header(y, "Featured"); y += 20
-    add_info_row(y, profile["project_1_name"], profile["project_1_desc"]); y += 20
-    add_info_row(y, profile["project_2_name"], profile["project_2_desc"]); y += 30
+    add_section_header("Featured")
+    add_info_row(profile["project_1_name"], profile["project_1_desc"])
+    add_info_row(profile["project_2_name"], profile["project_2_desc"])
+    add_gap(10)
 
     # ── CONTACT ──────────────────────────────────────────────────────────
-    add_section_header(y, "Contact"); y += 20
-    add_info_row(y, "Email", profile["contact_email"]); y += 20
-    add_info_row(y, "LinkedIn", profile["contact_linkedin"]); y += 20
+    add_section_header("Contact")
+    add_info_row("Email", profile["contact_email"])
+    add_info_row("LinkedIn", profile["contact_linkedin"])
     if profile.get("contact_discord"):
-        add_info_row(y, "Discord", profile["contact_discord"]); y += 20
-    y += 10
+        add_info_row("Discord", profile["contact_discord"])
+    add_gap(10)
 
     # ── GITHUB STATS ─────────────────────────────────────────────────────
-    add_section_header(y, "GitHub Stats"); y += 20
+    add_section_header("GitHub Stats")
 
     repos_text = format_display_text(stats["repos"])
     contrib_text = format_display_text(stats["contributed"])
@@ -657,7 +646,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
     # repos | stars row
     repos_dots = build_dot_string(repos_text, REPO_DATA_WIDTH)
     stars_dots = build_dot_string(stars_text, STAR_DATA_WIDTH)
-    svg.append(
+    text_svg.append(
         f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">Repos</tspan>:'
         f'<tspan class="cc">{repos_dots}</tspan>'
@@ -673,7 +662,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
     # commits | followers row
     commits_dots = build_dot_string(commits_text, COMMIT_DATA_WIDTH)
     followers_dots = build_dot_string(followers_text, FOLLOWER_DATA_WIDTH)
-    svg.append(
+    text_svg.append(
         f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">Commits</tspan>:'
         f'<tspan class="cc">{commits_dots}</tspan>'
@@ -686,7 +675,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
 
     # LOC row
     loc_dots = build_dot_string(loc_net, LOC_DATA_WIDTH)
-    svg.append(
+    text_svg.append(
         f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">GitHub LOC</tspan>:'
         f'<tspan class="cc">{loc_dots}</tspan>'
@@ -697,10 +686,56 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         f'<tspan class="delColor">{loc_del}</tspan> )\n'
     )
 
-    svg.append("</text>\n")
-    svg.append("</svg>\n")
+    last_text_y = y  # final y position of text content
 
+    # ── vertical centering ──────────────────────────────────────────────────
+    text_height = last_text_y - 30  # px from first to last text line
+    if ascii_height > text_height:
+        text_offset_y = (ascii_height - text_height) // 2
+    else:
+        text_offset_y = 0
+
+    # ── canvas size ────────────────────────────────────────────────────────
+    ascii_bottom = 30 + ascii_height
+    text_bottom = 30 + text_offset_y + text_height
+    canvas_height = max(ascii_bottom, text_bottom) + 30
+
+    # ── build SVG ──────────────────────────────────────────────────────────
+    svg = []
+    svg.append(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<svg xmlns="http://www.w3.org/2000/svg" '
+        'font-family="Consolas,monospace" '
+        f'width="1000px" height="{canvas_height}px" '
+        'font-size="16px">\n'
+        "<style>\n"
+        ".key {fill: " + key_fill + ";}\n"
+        ".value {fill: " + value_fill + ";}\n"
+        ".addColor {fill: " + add_fill + ";}\n"
+        ".delColor {fill: " + del_fill + ";}\n"
+        ".cc {fill: " + dot_fill + ";}\n"
+        "text, tspan {white-space: pre;}\n"
+        "</style>\n"
+        f'<rect width="1000px" height="{canvas_height}px" fill="{bg}" rx="15"/>\n'
+    )
+
+    # ── left panel: ASCII art ──────────────────────────────────────────────
+    svg.append(f'<text x="{left_x}" y="30" fill="{main_fill}" class="ascii">\n')
+    for i, line in enumerate(ascii_lines):
+        line_y = 30 + i * 20
+        svg.append(f'  <tspan x="{left_x}" y="{line_y}">{line}</tspan>\n')
+    svg.append("</text>\n")
+
+    # ── right panel: text (with vertical offset if needed) ──────────────────
+    svg.append(f'<g transform="translate(0, {text_offset_y})">\n')
+    svg.append(f'<text x="{right_x}" y="30" fill="{main_fill}">\n')
+    svg.extend(text_svg)
+    svg.append("</text>\n")
+    svg.append("</g>\n")
+
+    svg.append("</svg>\n")
     return "".join(svg)
+
 
 
 # ── timing helper ──────────────────────────────────────────────────────────────
