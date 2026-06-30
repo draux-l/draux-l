@@ -24,7 +24,7 @@ load_dotenv()
 
 # ── constants ──────────────────────────────────────────────────────────────────
 
-ASCII_WIDTH = 35  # chars wide for the left panel (~40% of 1000px)
+ASCII_WIDTH = 28  # chars wide for the left panel
 ASCII_RAMP = " .:-=+*#%@"  # 10-level ramp, dark to light
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
@@ -578,7 +578,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
     svg.append("</text>\n")
 
     # ── right panel: info + stats ───────────────────────────────────────────
-    right_x = 410
+    right_x = 370
 
     # helpers
     def add_section_header(y, title, dash_count=32):
