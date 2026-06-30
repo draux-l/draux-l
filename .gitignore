@@ -1,0 +1,6 @@
+__pycache__/
+.env
+*.pyc
+cache/*.txt
+!cache/requirements.txt
+INSTRUCTIONS.md
