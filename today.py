@@ -599,8 +599,15 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
         nonlocal y
         y += px
 
+    def add_if_present(label, key):
+        """Add a row only if the config key exists and is non-empty."""
+        nonlocal y
+        val = profile.get(key, "")
+        if val:
+            add_info_row(label, val, 45)
+
     # header bar
-    header_text = f"{profile['username']}@{profile['hostname']}"
+    header_text = f"{profile.get('username', 'user')}@{profile.get('hostname', 'host')}"
     dashes = "\u2014" * 24
     text_svg.append(
         f'  <tspan x="{RIGHT_X}" y="{y}">{header_text} {dashes}</tspan>\n'
@@ -608,38 +615,44 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
     y += 20
 
     # ── ABOUT ────────────────────────────────────────────────────────────
-    add_info_row("About", profile["about_bio"], 45)
-    add_info_row("Location", profile["location"], 45)
+    add_if_present("About", "about_bio")
+    add_if_present("Location", "location")
+    if profile.get("about_long"):
+        add_info_row("About", profile["about_long"], 45)
     add_gap(10)
 
     # ── TECH STACK ───────────────────────────────────────────────────────
     add_section_header("Tech Stack")
-    add_info_row("Languages", profile["stack_languages"], 45)
-    add_info_row("Frontend", profile["stack_frontend"], 45)
-    add_info_row("Backend", profile["stack_backend"], 45)
-    add_info_row("DevOps", profile["stack_devops"], 45)
-    add_info_row("Tools", profile["stack_tools"], 45)
+    add_if_present("Core", "stack_core")
+    add_if_present("DevOps", "stack_devops")
+    add_if_present("Data", "stack_data")
+    add_if_present("OS", "stack_os")
     add_gap(10)
 
     # ── CURRENTLY ────────────────────────────────────────────────────────
     add_section_header("Currently")
-    add_info_row("Learning", profile["learning"], 45)
-    add_info_row("Building", profile["building"], 45)
-    add_info_row("Reading", profile["reading"], 45)
+    add_if_present("Learning", "learning")
+    add_if_present("Building", "building")
+    add_if_present("Goals", "goals")
     add_gap(10)
 
-    # ── FEATURED ─────────────────────────────────────────────────────────
-    add_section_header("Featured")
-    add_info_row(profile["project_1_name"], profile["project_1_desc"], 45)
-    add_info_row(profile["project_2_name"], profile["project_2_desc"], 45)
-    add_gap(10)
+    # ── LANGUAGES ────────────────────────────────────────────────────────
+    if profile.get("languages_spoken"):
+        add_section_header("Languages")
+        add_if_present("Spoken", "languages_spoken")
+        add_gap(10)
+
+    # ── HOBBIES ──────────────────────────────────────────────────────────
+    if profile.get("hobbies"):
+        add_section_header("Hobbies")
+        add_info_row("Interests", profile["hobbies"], 45)
+        add_gap(10)
 
     # ── CONTACT ──────────────────────────────────────────────────────────
     add_section_header("Contact")
-    add_info_row("Email", profile["contact_email"], 45)
-    add_info_row("LinkedIn", profile["contact_linkedin"], 45)
-    if profile.get("contact_discord"):
-        add_info_row("Discord", profile["contact_discord"], 45)
+    add_if_present("Email", "contact_email")
+    add_if_present("LinkedIn", "contact_linkedin")
+    add_if_present("Discord", "contact_discord")
     add_gap(10)
 
     # ── GITHUB STATS ─────────────────────────────────────────────────────
@@ -772,8 +785,9 @@ def main():
     print_duration("account data", user_time)
 
     # 2. age
+    birthday = BIRTHDAY if BIRTHDAY else (2000, 1, 1)
     age_data, age_time = perf_counter(
-        format_age, datetime.datetime(*BIRTHDAY)
+        format_age, datetime.datetime(*birthday)
     )
     print_duration("age calculation", age_time)
 
