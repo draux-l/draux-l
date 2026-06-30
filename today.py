@@ -24,7 +24,7 @@ load_dotenv()
 
 # ── constants ──────────────────────────────────────────────────────────────────
 
-ASCII_WIDTH = 25  # chars wide for left panel
+ASCII_WIDTH = 38  # chars wide for left panel
 ASCII_RAMP = "@%#*+=-:. "  # 10-level ramp, dark to light
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
