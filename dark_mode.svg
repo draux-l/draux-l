@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="985px" height="530px" font-size="16px">
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="1000px" height="570px" font-size="16px">
 <style>
 .key {fill: #ffa657;}
 .value {fill: #a5d6ff;}
@@ -8,44 +8,88 @@
 .cc {fill: #616e7f;}
 text, tspan {white-space: pre;}
 </style>
-<rect width="985px" height="530px" fill="#0d1117" rx="15"/>
-<text x="15" y="30" fill="#c9d1d9" class="ascii">
-  <tspan x="15" y="30"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="50"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="70"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="90"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006382">@</tspan><tspan fill="#0085a3">#</tspan><tspan fill="#00b3d0">=</tspan><tspan fill="#00adc9">=</tspan><tspan fill="#00708f">%</tspan><tspan fill="#006180">@</tspan><tspan fill="#007997">%</tspan><tspan fill="#00a8c5">+</tspan><tspan fill="#00b6d2">=</tspan><tspan fill="#007d9b">%</tspan><tspan fill="#006181">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="110"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#007594">%</tspan><tspan fill="#008dab">*</tspan><tspan fill="#00bcd8">-</tspan><tspan fill="#00d7f2">.</tspan><tspan fill="#00c9e5">:</tspan><tspan fill="#00e1fc">.</tspan><tspan fill="#00c9e5">:</tspan><tspan fill="#00b3d0">=</tspan><tspan fill="#00dcf6">.</tspan><tspan fill="#00d6f1">.</tspan><tspan fill="#00d2ed">:</tspan><tspan fill="#009cb9">+</tspan><tspan fill="#006181">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="130"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#00a1be">+</tspan><tspan fill="#00d9f4">.</tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e2fd">.</tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e4fe">.</tspan><tspan fill="#009ab7">*</tspan><tspan fill="#006484">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="150"><tspan fill="#006080">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#007997">%</tspan><tspan fill="#00b0cd">=</tspan><tspan fill="#00bcd8">-</tspan><tspan fill="#00beda">-</tspan><tspan fill="#00bad6">-</tspan><tspan fill="#00dbf5">.</tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e3fd">.</tspan><tspan fill="#00e1fc">.</tspan><tspan fill="#00e2fd">.</tspan><tspan fill="#00d5f0">:</tspan><tspan fill="#00d6f1">.</tspan><tspan fill="#00e1fc">.</tspan><tspan fill="#00e1fc">.</tspan><tspan fill="#00ddf7">.</tspan><tspan fill="#00d2ed">:</tspan><tspan fill="#00def8">.</tspan><tspan fill="#00d4ef">:</tspan><tspan fill="#007695">%</tspan><tspan fill="#006180">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="170"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#008dab">*</tspan><tspan fill="#00cfea">:</tspan><tspan fill="#00c7e2">-</tspan><tspan fill="#00acc8">=</tspan><tspan fill="#00b9d5">-</tspan><tspan fill="#00c7e3">:</tspan><tspan fill="#00d1ec">:</tspan><tspan fill="#00e3fe">.</tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e2fd">.</tspan><tspan fill="#00e3fd">.</tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e5ff"> </tspan><tspan fill="#00e0fa">.</tspan><tspan fill="#00e4fe">.</tspan><tspan fill="#00c8e4">:</tspan><tspan fill="#007392">%</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="190"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006d8c">@</tspan><tspan fill="#0081a0">#</tspan><tspan fill="#009ab7">*</tspan><tspan fill="#009bb8">+</tspan><tspan fill="#009dba">+</tspan><tspan fill="#009dba">+</tspan><tspan fill="#009bb8">+</tspan><tspan fill="#009bb8">+</tspan><tspan fill="#009bb9">+</tspan><tspan fill="#009fbc">+</tspan><tspan fill="#0091af">*</tspan><tspan fill="#006b8a">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="210"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="230"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006281">@</tspan><tspan fill="#006282">@</tspan><tspan fill="#006282">@</tspan><tspan fill="#006282">@</tspan><tspan fill="#006382">@</tspan><tspan fill="#006382">@</tspan><tspan fill="#006382">@</tspan><tspan fill="#006382">@</tspan><tspan fill="#006282">@</tspan><tspan fill="#006282">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
-  <tspan x="15" y="250"><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006181">@</tspan><tspan fill="#006180">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan><tspan fill="#006080">@</tspan></tspan>
+<rect width="1000px" height="570px" fill="#0d1117" rx="15"/>
+<text x="20" y="30" fill="#c9d1d9" class="ascii">
+  <tspan x="20" y="30">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="50">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="70">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="90">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="110">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="130">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="150">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="170">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="190">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="210">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="230">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="250">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.   :@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="270">@@@@@@@@@@@@@@:  @@@@@@@@@@@@@@@@@@@@@@. .@@@@@@@@@@@@@@@@@@@@   %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="290">@@@@@@@@@@@@@@.     +@@@@@@@@@@@@@@@@*  @@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="310">@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@  %@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="330">@@@@@@@@@@@@-       +@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@+ :@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="350">@@@@@@@@@@:      @@@@@@@@@@@@@@@@@  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="370">@@@@@@@@@@@@-    @@@@@@@@@@@@@@@@@  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  %@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="390">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  %@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="410">@@@@@@@@@@@@@@@@.     @@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="430">@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="450">@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="470">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@. =@@@    *@@@@@@@@@@-   =@@@@@@@@@@@@@@@@@= =@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="490">@@@@@@@@@@@@@@@@@@@@@@@@@@@    @. =@@@    *@@@@@@@@@@-   =@@@@@@@@@@@@@@@@@+ =@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="510">@@@@@@@@@@@@@@@@@@@@@@@@@  #@@=   =@@@    *@@@@@@@@@@-   =@@@@@@@@@@@@@@@@@+ =@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="530">@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@. =@@@@@@@@@@@@**@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="550">@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@. =@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="570">@@@@@@@@@@@@@@@@@@@@@@@@@@@  %@@. =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="590">@@@@@@@@@@@@@@@@@@@@@@@@@@@@#  @. =@@@@@@@@@@@@@@@@@@@@@@##@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="610">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=   =@@@@@@@@@@@@@@@@@@@@@%  @@@@@@@@@@@@@@@@@@@@%# :@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="630">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@%  @@@@@@@@@@@@@@@@@@@@@% .@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="650">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@%  @@@  %@@@@@@@@@@@@@@@% .@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="670">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%  #@@@@@@@@@@@@@@@@@@@@@+   =@@@@@@@@@@@@@@@@@@%. #@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="690">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  *@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="710">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%  @@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="730">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="750">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%#  @@@@@@@@@@@@</tspan>
+  <tspan x="20" y="770">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@</tspan>
+  <tspan x="20" y="790">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%= :@@@@@@@@@@</tspan>
+  <tspan x="20" y="810">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@</tspan>
+  <tspan x="20" y="830">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@+ .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%          #@@@@@@@@</tspan>
+  <tspan x="20" y="850">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@         .@@@@@@      @@@@@@@@@@@@@@@@@@  %@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="870">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.      -%%%%.     @@@@@@       #%@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="890">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%=      #%%%%%%@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="910">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="930">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="950">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="970">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="990">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="1010">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="1030">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="1050">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="1070">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="1090">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+  <tspan x="20" y="1110">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
 </text>
-<text x="390" y="30" fill="#c9d1d9">
-  <tspan x="390" y="30">draux-l@draux ————————————————————————————————————————</tspan>
-  <tspan x="390" y="50" class="cc">. </tspan><tspan class="key">OS</tspan>:<tspan class="cc"> ................................... </tspan><tspan class="value">Windows 11 / Ubuntu</tspan>
-  <tspan x="390" y="70" class="cc">. </tspan><tspan class="key">Uptime</tspan>:<tspan class="cc"> ...................... </tspan><tspan class="value">26 years, 5 months, 29 days</tspan>
-  <tspan x="390" y="90" class="cc">. </tspan><tspan class="key">Host</tspan>:<tspan class="cc"> .................................... </tspan><tspan class="value">Your Company, Inc.</tspan>
-  <tspan x="390" y="110" class="cc">. </tspan><tspan class="key">Kernel</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">Senior Developer @ Something</tspan>
-  <tspan x="390" y="130" class="cc">. </tspan><tspan class="key">IDE</tspan>:<tspan class="cc"> ....................................... </tspan><tspan class="value">VS Code, Neovim</tspan>
-  <tspan x="390" y="150">. </tspan>
-  <tspan x="390" y="170" class="cc">. </tspan><tspan class="key">Languages.Programming</tspan>:<tspan class="cc"> ................................ </tspan><tspan class="value">Python, Go, TypeScript</tspan>
-  <tspan x="390" y="190" class="cc">. </tspan><tspan class="key">Languages.Computer</tspan>:<tspan class="cc"> .................................. </tspan><tspan class="value">HTML, CSS, JSON, SQL</tspan>
-  <tspan x="390" y="210" class="cc">. </tspan><tspan class="key">Languages.Real</tspan>:<tspan class="cc"> ...................................... </tspan><tspan class="value">Spanish, English</tspan>
-  <tspan x="390" y="230">. </tspan>
-  <tspan x="390" y="250" class="cc">. </tspan><tspan class="key">Hobbies.Software</tspan>:<tspan class="cc"> ................................ </tspan><tspan class="value">Open Source, CLI Tools</tspan>
-  <tspan x="390" y="270" class="cc">. </tspan><tspan class="key">Hobbies.Hardware</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">Raspberry Pi, Mechanical Keyboards</tspan>
-  <tspan x="390" y="290" class="cc">. </tspan><tspan class="key">Hobbies.Others</tspan>:<tspan class="cc"> ......................................... </tspan><tspan class="value">Math, Physics</tspan>
-  <tspan x="390" y="320">- Contact ————————————————————————————————————</tspan>
-  <tspan x="390" y="350" class="cc">. </tspan><tspan class="key">Email.Personal</tspan>:<tspan class="cc"> ......................................... </tspan><tspan class="value">you@gmail.com</tspan>
-  <tspan x="390" y="370" class="cc">. </tspan><tspan class="key">Email.Work</tspan>:<tspan class="cc"> .......................................... </tspan><tspan class="value">you@work.com</tspan>
-  <tspan x="390" y="390" class="cc">. </tspan><tspan class="key">Instagram</tspan>:<tspan class="cc"> ........................................ </tspan><tspan class="value">your_instagram</tspan>
-  <tspan x="390" y="410" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> .......................................... </tspan><tspan class="value">your_discord</tspan>
-  <tspan x="390" y="450">- GitHub Stats —————————————————————————————————</tspan>
-  <tspan x="390" y="470" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
-  <tspan x="390" y="490" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">29</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">1</tspan>
-  <tspan x="390" y="510" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">106,357</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">109.4K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">3K</tspan> )
+<text x="410" y="30" fill="#c9d1d9">
+  <tspan x="410" y="30">draux-l@draux ————————————————————————————</tspan>
+  <tspan x="410" y="50" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc">................... </tspan><tspan class="value">Full-stack dev | Open source</tspan>
+  <tspan x="410" y="70" class="cc">. </tspan><tspan class="key">Location</tspan>:<tspan class="cc">................ </tspan><tspan class="value">Buenos Aires, Argentina</tspan>
+  <tspan x="410" y="100" fill="#c9d1d9">- Tech Stack ————————————————————————————————</tspan>
+  <tspan x="410" y="120" class="cc">. </tspan><tspan class="key">Languages</tspan>:<tspan class="cc">............... </tspan><tspan class="value">Python, Go, TypeScript</tspan>
+  <tspan x="410" y="140" class="cc">. </tspan><tspan class="key">Frontend</tspan>:<tspan class="cc">................ </tspan><tspan class="value">React, Next.js</tspan>
+  <tspan x="410" y="160" class="cc">. </tspan><tspan class="key">Backend</tspan>:<tspan class="cc">................. </tspan><tspan class="value">FastAPI, Echo, Node.js</tspan>
+  <tspan x="410" y="180" class="cc">. </tspan><tspan class="key">DevOps</tspan>:<tspan class="cc">.................. </tspan><tspan class="value">Docker, GitHub Actions</tspan>
+  <tspan x="410" y="200" class="cc">. </tspan><tspan class="key">Tools</tspan>:<tspan class="cc">................... </tspan><tspan class="value">Neovim, Tmux, Git, Zellij</tspan>
+  <tspan x="410" y="230" fill="#c9d1d9">- Currently ————————————————————————————————</tspan>
+  <tspan x="410" y="250" class="cc">. </tspan><tspan class="key">Learning</tspan>:<tspan class="cc">................ </tspan><tspan class="value">Rust, Kubernetes</tspan>
+  <tspan x="410" y="270" class="cc">. </tspan><tspan class="key">Building</tspan>:<tspan class="cc">................ </tspan><tspan class="value">CLI tools, side projects</tspan>
+  <tspan x="410" y="290" class="cc">. </tspan><tspan class="key">Reading</tspan>:<tspan class="cc">................. </tspan><tspan class="value">Clean Architecture</tspan>
+  <tspan x="410" y="320" fill="#c9d1d9">- Featured ————————————————————————————————</tspan>
+  <tspan x="410" y="340" class="cc">. </tspan><tspan class="key">project-alpha</tspan>:<tspan class="cc">........... </tspan><tspan class="value">Short description here.</tspan>
+  <tspan x="410" y="360" class="cc">. </tspan><tspan class="key">project-beta</tspan>:<tspan class="cc">............ </tspan><tspan class="value">Short description here.</tspan>
+  <tspan x="410" y="390" fill="#c9d1d9">- Contact ————————————————————————————————</tspan>
+  <tspan x="410" y="410" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc">................... </tspan><tspan class="value">TU_EMAIL@gmail.com</tspan>
+  <tspan x="410" y="430" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc">................ </tspan><tspan class="value">linkedin.com/in/TU_USER</tspan>
+  <tspan x="410" y="450" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc">................. </tspan><tspan class="value">TU_DISCORD#1234</tspan>
+  <tspan x="410" y="480" fill="#c9d1d9">- GitHub Stats ————————————————————————————————</tspan>
+  <tspan x="410" y="500" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
+  <tspan x="410" y="520" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">30</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">1</tspan>
+  <tspan x="410" y="540" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">106,418</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">109.6K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">3.2K</tspan> )
 </text>
 </svg>
