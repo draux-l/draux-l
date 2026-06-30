@@ -16,7 +16,7 @@ from pathlib import Path
 import requests
 from dateutil import relativedelta
 from dotenv import load_dotenv
-from PIL import Image
+from PIL import Image, ImageFilter, ImageOps
 
 from config import BIRTHDAY, PROFILE
 
@@ -25,7 +25,7 @@ load_dotenv()
 # ── constants ──────────────────────────────────────────────────────────────────
 
 ASCII_WIDTH = 50  # chars wide for left panel
-ASCII_RAMP = "@%#*+=-:. "  # 10-level ramp, dark to light
+ASCII_RAMP = " .'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
@@ -490,67 +490,56 @@ def force_close_file(cache_rows, cache_header):
 # ── ASCII art generator ────────────────────────────────────────────────────────
 
 
-def image2ascii(image_path, theme="light"):
-    """Convert avatar.png to ASCII art with cyan gradient per character.
+def image2ascii(image_path):
+    """Convert avatar.png to monochrome ASCII art.
 
-    Returns list of rows, each row is list of (char, hex_color) tuples.
+    Returns a list of strings. Uses autocontrast + unsharp mask
+    for maximum detail. No color — pure character density.
     """
     img = Image.open(image_path).convert("L")
 
-    # Resize preserving aspect ratio (monospace char ≈ 2x taller than wide)
+    # 1. Stretch histogram
+    img = ImageOps.autocontrast(img, cutoff=1)
+
+    # 2. Sharpen edges
+    img = img.filter(ImageFilter.UnsharpMask(radius=1, percent=100, threshold=2))
+
+    # 3. Resize (char is ~2x taller than wide)
     aspect = img.height / img.width
     new_width = ASCII_WIDTH
     new_height = int(aspect * new_width * 0.5)
     img = img.resize((new_width, new_height), Image.LANCZOS)
 
+    # 4. Map brightness to character
     ramp = ASCII_RAMP
     ramp_len = len(ramp) - 1
 
-    # Cyan gradient per theme
-    if theme == "dark":
-        dark = (0, 77, 102)    # #004d66
-        bright = (0, 229, 255)  # #00e5ff
-    else:
-        dark = (0, 59, 77)      # #003b4d
-        bright = (0, 229, 255)  # #00e5ff
-
-    rows = []
+    lines = []
     for y in range(new_height):
-        row = []
+        chars = []
         for x in range(new_width):
             pixel = img.getpixel((x, y))
-            char_idx = int(pixel / 255 * ramp_len)
-            char = ramp[char_idx]
+            idx = int(pixel / 255 * ramp_len)
+            chars.append(ramp[idx])
+        lines.append("".join(chars))
 
-            t = pixel / 255
-            r = int(dark[0] + (bright[0] - dark[0]) * t)
-            g = int(dark[1] + (bright[1] - dark[1]) * t)
-            b = int(dark[2] + (bright[2] - dark[2]) * t)
-            color = f"#{r:02x}{g:02x}{b:02x}"
-
-            row.append((char, color))
-        rows.append(row)
-
-    return rows
+    return lines
 
 
-def build_ascii_svg(ascii_rows, start_x=15, start_y=30):
-    """Generate SVG text elements for the left panel with per-character coloring."""
+def build_ascii_svg(ascii_lines, start_x=15, start_y=30):
+    """Generate SVG tspans — one per line, monochrome."""
     parts = []
-    for row_idx, row in enumerate(ascii_rows):
-        y = start_y + row_idx * 20
-        parts.append(f'  <tspan x="{start_x}" y="{y}">')
-        for char, color in row:
-            escaped = char.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-            parts.append(f'<tspan fill="{color}">{escaped}</tspan>')
-        parts.append("</tspan>\n")
+    for i, line in enumerate(ascii_lines):
+        y = start_y + i * 20
+        escaped = line.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        parts.append(f'  <tspan x="{start_x}" y="{y}">{escaped}</tspan>\n')
     return "".join(parts)
 
 
 # ── SVG builder ────────────────────────────────────────────────────────────────
 
 
-def svg_builder(ascii_rows, profile, stats, theme="light"):
+def svg_builder(ascii_lines, profile, stats, theme="light"):
     """Generate complete SVG — neofetch-style with ASCII art (left) + stats (right)."""
 
     # ── color scheme ────────────────────────────────────────────────────────
@@ -574,7 +563,7 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
     # ── layout constants ────────────────────────────────────────────────────
     CANVAS_W = 1050
     LEFT_X = 15
-    RIGHT_X = 530  # 50/50 split
+    RIGHT_X = 510  # 50/50 split with tight gutter
 
     # ── build text panel ────────────────────────────────────────────────────
     text_svg = []
@@ -703,7 +692,7 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
     )
 
     # ── compute layout ─────────────────────────────────────────────────────
-    ascii_height = len(ascii_rows) * 20  # px
+    ascii_height = len(ascii_lines) * 20  # px
     text_height = y - 30
     if ascii_height > text_height:
         text_offset_y = (ascii_height - text_height) // 2
@@ -732,7 +721,7 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
 
     # ── left panel: ASCII art ──────────────────────────────────────────────
     svg.append(f'<text x="{LEFT_X}" y="30" fill="{main_fill}">\n')
-    svg.append(build_ascii_svg(ascii_rows, start_x=LEFT_X, start_y=30))
+    svg.append(build_ascii_svg(ascii_lines, start_x=LEFT_X, start_y=30))
     svg.append("</text>\n")
 
     # ── right panel: text (with vertical centering) ────────────────────────
@@ -825,19 +814,18 @@ def main():
         "contributed": contrib_data,
     }
 
-    # 9. Generate ASCII art from avatar.png (different colors per theme)
+    # 9. Generate ASCII art (monochrome — same output for both themes)
     print("Generating ASCII art...")
-    ascii_light, ascii_time = perf_counter(image2ascii, "avatar.png", "light")
-    print_duration("ascii art (light)", ascii_time)
-    ascii_dark, _ = perf_counter(image2ascii, "avatar.png", "dark")
+    ascii_lines, ascii_time = perf_counter(image2ascii, "avatar.png")
+    print_duration("ascii art", ascii_time)
 
     # 10. Generate SVGs
     print("Generating SVGs...")
     with open("light_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_light, PROFILE, stats, theme="light"))
+        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="light"))
 
     with open("dark_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_dark, PROFILE, stats, theme="dark"))
+        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="dark"))
 
     # timing summary
     total_runtime = (
