@@ -36,7 +36,7 @@ PROFILE = {
     "project_2_url": "github.com/draux-l/beta",  # <-- CAMBIAR: repo URL
 
     # ── CONTACT ──────────────────────────────────────────
-    "contact_email": "TU_EMAIL@gmail.com",       # <-- CAMBIAR: your email
-    "contact_linkedin": "linkedin.com/in/TU_USER",  # <-- CAMBIAR: your LinkedIn URL
+    "contact_email": "llanosgarciadiego@gmail.com",       # <-- CAMBIAR: your email
+    "contact_linkedin": "linkedin.com/in/diegollanosg",  # <-- CAMBIAR: your LinkedIn URL
     "contact_discord": "TU_DISCORD#1234",        # <-- CAMBIAR: your Discord (or "")
 }

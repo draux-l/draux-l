@@ -24,7 +24,7 @@ load_dotenv()
 
 # ── constants ──────────────────────────────────────────────────────────────────
 
-ASCII_WIDTH = 38  # chars wide for left panel
+ASCII_WIDTH = 50  # chars wide for left panel
 ASCII_RAMP = "@%#*+=-:. "  # 10-level ramp, dark to light
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
@@ -572,10 +572,9 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
         del_fill = "#cf222e"
 
     # ── layout constants ────────────────────────────────────────────────────
-    CANVAS_W = 985
-    CANVAS_H = 530
+    CANVAS_W = 1050
     LEFT_X = 15
-    RIGHT_X = 390
+    RIGHT_X = 530  # 50/50 split
 
     # ── build text panel ────────────────────────────────────────────────────
     text_svg = []
@@ -703,13 +702,22 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
         f'<tspan class="delColor">{loc_del}</tspan> )\n'
     )
 
+    # ── compute layout ─────────────────────────────────────────────────────
+    ascii_height = len(ascii_rows) * 20  # px
+    text_height = y - 30
+    if ascii_height > text_height:
+        text_offset_y = (ascii_height - text_height) // 2
+    else:
+        text_offset_y = 0
+    canvas_height = max(30 + ascii_height, 30 + text_offset_y + text_height) + 30
+
     # ── build SVG ──────────────────────────────────────────────────────────
     svg = []
     svg.append(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<svg xmlns="http://www.w3.org/2000/svg" '
         'font-family="Consolas,monospace" '
-        f'width="{CANVAS_W}px" height="{CANVAS_H}px" '
+        f'width="{CANVAS_W}px" height="{canvas_height}px" '
         'font-size="16px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
@@ -719,7 +727,7 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
         ".cc {fill: " + dot_fill + ";}\n"
         "text, tspan {white-space: pre;}\n"
         "</style>\n"
-        f'<rect width="{CANVAS_W}px" height="{CANVAS_H}px" fill="{bg}" rx="15"/>\n'
+        f'<rect width="{CANVAS_W}px" height="{canvas_height}px" fill="{bg}" rx="15"/>\n'
     )
 
     # ── left panel: ASCII art ──────────────────────────────────────────────
@@ -727,12 +735,14 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
     svg.append(build_ascii_svg(ascii_rows, start_x=LEFT_X, start_y=30))
     svg.append("</text>\n")
 
-    # ── right panel: text ──────────────────────────────────────────────────
+    # ── right panel: text (with vertical centering) ────────────────────────
+    svg.append(f'<g transform="translate(0, {text_offset_y})">\n')
     svg.append(f'<text x="{RIGHT_X}" y="30" fill="{main_fill}">\n')
     svg.extend(text_svg)
     svg.append("</text>\n")
+    svg.append("</g>\n")
 
-    svg.append("</svg>\n")
+    svg.append('</svg>\n')
     return "".join(svg)
 
 
