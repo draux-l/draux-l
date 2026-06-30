@@ -16,7 +16,7 @@ from pathlib import Path
 import requests
 from dateutil import relativedelta
 from dotenv import load_dotenv
-from PIL import Image
+from PIL import Image, ImageFilter, ImageOps
 
 from config import BIRTHDAY, PROFILE
 
@@ -25,7 +25,7 @@ load_dotenv()
 # ── constants ──────────────────────────────────────────────────────────────────
 
 ASCII_WIDTH = 28  # chars wide for the left panel
-ASCII_RAMP = " .:-=+*#%@"  # 10-level ramp, dark to light
+ASCII_RAMP = " .'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 CHAR_PX = 9.6  # approximate pixel advance per char for Consolas at 16px
 GUTTER = 3  # chars of separation between ASCII art and text panel
 
@@ -503,18 +503,25 @@ def force_close_file(cache_rows, cache_header):
 
 
 def image2ascii(image_path, width=ASCII_WIDTH):
-    """Convert avatar.png to monochrome ASCII art.
+    """Convert avatar.png to high-quality monochrome ASCII art.
 
-    Returns a list of strings, one per line. No per-character coloring —
-    purely character density. Same output for light and dark mode.
+    Returns a list of strings, one per line. Uses autocontrast, unsharp mask,
+    and a 15-level character ramp for maximum detail at small sizes.
     """
     img = Image.open(image_path).convert("L")
 
-    # Adjust height for monospace render (char cell ≈ 1.67:1 in SVG)
+    # 1. Stretch histogram to use full 0-255 range
+    img = ImageOps.autocontrast(img, cutoff=1)
+
+    # 2. Sharpen edges (critical for facial features at small sizes)
+    img = img.filter(ImageFilter.UnsharpMask(radius=1, percent=100, threshold=2))
+
+    # 3. Resize with correct aspect ratio for SVG monospace rendering
     aspect = img.height / img.width
     height = int(width * aspect * 0.6)
     img = img.resize((width, height), Image.LANCZOS)
 
+    # 4. Map each pixel to a character from the density ramp
     ramp = ASCII_RAMP
     ramp_len = len(ramp) - 1
 
