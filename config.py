@@ -3,31 +3,45 @@
 #  Every field with a placeholder has # <-- CAMBIAR next to it
 # ═══════════════════════════════════════════════════════════════
 
-BIRTHDAY = (2000, 1, 1)  # <-- CAMBIAR: (year, month, day)
+BIRTHDAY = None  # <-- Omitido por privacidad. Si el script requiere una tupla, usa (2000, 1, 1) como fallback.
 
 PROFILE = {
     # ── IDENTITY ──────────────────────────────────────────
-    "username": "draux-l",                       # <-- CAMBIAR: your GitHub username
-    "hostname": "draux",                         # <-- CAMBIAR: your machine hostname
+    "username": "draux-l",
+    "hostname": "dllanos",
 
     # ── ABOUT ────────────────────────────────────────────
-    "about_bio": "Full-stack dev | Open source", # <-- CAMBIAR: one-liner about you
-    "location": "Buenos Aires, Argentina",       # <-- CAMBIAR: your city/country
+    "about_bio": "Software Developer | Data enthusiast | Lifelong learner",
+    "location": "Arequipa - Perú",
 
-    # ── TECH STACK ───────────────────────────────────────
-    "stack_languages": "Python, Go, TypeScript", # <-- CAMBIAR: your programming languages
-    "stack_frontend": "React, Next.js",          # <-- CAMBIAR: your frontend stack
-    "stack_backend": "FastAPI, Echo, Node.js",   # <-- CAMBIAR: your backend stack
-    "stack_devops": "Docker, GitHub Actions",    # <-- CAMBIAR: your DevOps/infra tools
-    "stack_tools": "Neovim, Tmux, Git, Zellij",  # <-- CAMBIAR: your daily tools
+    # ── ABOUT (extended — short prose for the "About Me" section) ──
+    "about_long": (
+        "Backend developer with a passion for data science and continuous learning. "
+        "I volunteer in my community and I'm always looking for "
+        "opportunities to grow."
+    ),
+
+    # ── LANGUAGES (spoken, not programming) ───────────────
+    "languages_spoken": "Spanish (native), English (learning)",
+
+    # ── TECH STACK (organized by skill level) ─────────────
+    "stack_core": "Python, Django, JavaScript, TypeScript, React",  # strong, solid foundation
+    "stack_devops": "Docker",                                       # practicing
+    "stack_data": "Pandas, NumPy, Statistics",                      # currently learning
+    "stack_os": "Windows, Ubuntu (Linux)",                          # systems you work with
 
     # ── CURRENTLY ────────────────────────────────────────
-    "learning": "Rust, Kubernetes",              # <-- CAMBIAR: what you are learning
-    "building": "CLI tools, side projects",      # <-- CAMBIAR: what you are building
-    "reading": "Clean Architecture",             # <-- CAMBIAR: what you are reading
+    "learning": "Data Science (Alura LATAM)",
+    "building": "Backend projects with Django",
+
+    # ── GOALS ──────────────────────────────────────────────
+    "goals": "Looking for opportunities that help me grow",
+
+    # ── HOBBIES ─────────────────────────────────────────────
+    "hobbies": "Community volunteering, continuous learning",
 
     # ── CONTACT ──────────────────────────────────────────
-    "contact_email": "llanosgarciadiego@gmail.com",       # <-- CAMBIAR: your email
-    "contact_linkedin": "linkedin.com/in/diegollanosg",  # <-- CAMBIAR: your LinkedIn URL
-    "contact_discord": "draux.l",        # <-- CAMBIAR: your Discord (or "")
+    "contact_email": "llanosgarciadiego@gmail.com",
+    "contact_linkedin": "linkedin.com/in/diegollanosg",
+    "contact_discord": "draux.l",
 }
