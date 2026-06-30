@@ -11,14 +11,15 @@ PROFILE = {
     "hostname": "dllanos",
 
     # ── ABOUT ────────────────────────────────────────────
-    "about_bio": "Software Developer | Data enthusiast | Lifelong learner",
+    "about_bio": "Software Developer | Data enthusiast",
     "location": "Arequipa - Perú",
 
     # ── ABOUT (extended — short prose for the "About Me" section) ──
     "about_long": (
-        "Backend developer with a passion for data science and continuous learning. "
-        "I volunteer in my community and I'm always looking for "
-        "opportunities to grow."
+        " Backend developer with a passion for data "
+        " science and continuous learning. "
+        " I volunteer in my community and I'm always "
+        " looking for opportunities to grow."
     ),
 
     # ── LANGUAGES (spoken, not programming) ───────────────
@@ -26,13 +27,12 @@ PROFILE = {
 
     # ── TECH STACK (organized by skill level) ─────────────
     "stack_core": "Python, Django, JavaScript, TypeScript, React",  # strong, solid foundation
-    "stack_devops": "Docker",                                       # practicing
+    "stack_devops": "Docker, GitHub, Oracle Cloud",                                       # practicing
     "stack_data": "Pandas, NumPy, Statistics",                      # currently learning
     "stack_os": "Windows, Ubuntu (Linux)",                          # systems you work with
 
     # ── CURRENTLY ────────────────────────────────────────
     "learning": "Data Science (Alura LATAM)",
-    "building": "Backend projects with Django",
 
     # ── GOALS ──────────────────────────────────────────────
     "goals": "Looking for opportunities that help me grow",

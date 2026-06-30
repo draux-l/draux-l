@@ -836,7 +836,7 @@ def main():
 
     # 9. Generate ASCII art (monochrome — same output for both themes)
     print("Generating ASCII art...")
-    ascii_lines, ascii_time = perf_counter(image2ascii, "avatar2.png")
+    ascii_lines, ascii_time = perf_counter(image2ascii, "avatar.png")
     print_duration("ascii art", ascii_time)
 
     # 10. Generate SVGs
