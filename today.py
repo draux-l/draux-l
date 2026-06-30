@@ -7,6 +7,7 @@ Generates light_mode.svg and dark_mode.svg from config data + GitHub API stats.
 ASCII art is hardcoded (paste your art in the variable below).
 """
 
+import base64
 import datetime
 import hashlib
 import os
@@ -497,19 +498,20 @@ def force_close_file(cache_rows, cache_header):
 # ── PNG dimensions reader ──────────────────────────────────────────────────────
 
 
-def get_png_dims(filepath):
-    """Read PNG width and height from the file header — no Pillow needed."""
+def read_png(filepath):
+    """Read PNG dimensions and base64-encode it — no Pillow needed."""
     with open(filepath, "rb") as f:
-        header = f.read(24)
-        w, h = struct.unpack(">II", header[16:24])
-    return w, h
+        data = f.read()
+        w, h = struct.unpack(">II", data[16:24])
+        b64 = base64.b64encode(data).decode("ascii")
+    return w, h, b64
 
 
 # ── SVG builder ────────────────────────────────────────────────────────────────
 
 
-def svg_builder(img_width, img_height, profile, stats, theme="light"):
-    """Generate complete SVG string — neofetch-style with PNG image on the left."""
+def svg_builder(img_width, img_height, img_b64, profile, stats, theme="light"):
+    """Generate complete SVG string — neofetch-style with base64-inlined PNG on the left."""
 
     # ── color scheme ────────────────────────────────────────────────────────
     if theme == "dark":
@@ -701,7 +703,7 @@ def svg_builder(img_width, img_height, profile, stats, theme="light"):
     svg.append(
         f'<image x="{LEFT_MARGIN}" y="30" '
         f'width="{IMG_WIDTH}px" height="{img_display_h}px" '
-        f'href="./avatar.png" />\n'
+        f'href="data:image/png;base64,{img_b64}" />\n'
     )
 
     # ── right panel: text ──────────────────────────────────────────────────
@@ -794,16 +796,16 @@ def main():
         "contributed": contrib_data,
     }
 
-    # 9. Read avatar.png dimensions
-    png_w, png_h = get_png_dims("avatar.png")
+    # 9. Read avatar.png (dimensions + base64)
+    png_w, png_h, png_b64 = read_png("avatar.png")
 
     # 10. Generate SVGs
     print("Generating SVGs...")
     with open("light_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(png_w, png_h, PROFILE, stats, theme="light"))
+        f.write(svg_builder(png_w, png_h, png_b64, PROFILE, stats, theme="light"))
 
     with open("dark_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(png_w, png_h, PROFILE, stats, theme="dark"))
+        f.write(svg_builder(png_w, png_h, png_b64, PROFILE, stats, theme="dark"))
 
     # timing summary
     total_runtime = (
