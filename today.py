@@ -4,7 +4,7 @@ SPDX-License-Identifier: Apache-2.0
 
 Dynamic GitHub Profile README generator.
 Generates light_mode.svg and dark_mode.svg from config data + GitHub API stats.
-ASCII art is generated from avatar.png with a cyan monochrome gradient.
+ASCII art is hardcoded (paste your art in the variable below).
 """
 
 import datetime
@@ -16,19 +16,88 @@ from pathlib import Path
 import requests
 from dateutil import relativedelta
 from dotenv import load_dotenv
-from PIL import Image
 
 from config import BIRTHDAY, PROFILE
 
 load_dotenv()
 
+# ════════════════════════════════════════════════════════════════════════════════
+#  ASCII ART — Paste your ASCII art below (max ~26 lines, ~40 chars wide)
+#  Generate it at https://patorjk.com/software/taag/ or any ASCII tool
+#  Keep lines roughly the same width for best visual results
+# ════════════════════════════════════════════════════════════════════════════════
+HARDCODED_ASCII = r"""
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.   :@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@:  @@@@@@@@@@@@@@@@@@@@@@. .@@@@@@@@@@@@@@@@@@@@   %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@.     +@@@@@@@@@@@@@@@@*  @@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@.  @@@@@@@@@@@@@@@@@@@  %@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@-       +@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@+ :@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@:      @@@@@@@@@@@@@@@@@  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@-    @@@@@@@@@@@@@@@@@  *@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  %@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  %@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@.     @@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@. =@@@    *@@@@@@@@@@-   =@@@@@@@@@@@@@@@@@= =@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@    @. =@@@    *@@@@@@@@@@-   =@@@@@@@@@@@@@@@@@+ =@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@  #@@=   =@@@    *@@@@@@@@@@-   =@@@@@@@@@@@@@@@@@+ =@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@. =@@@@@@@@@@@@**@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@. =@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@  %@@. =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@#  @. =@@@@@@@@@@@@@@@@@@@@@@##@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=   =@@@@@@@@@@@@@@@@@@@@@%  @@@@@@@@@@@@@@@@@@@@%# :@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@%  @@@@@@@@@@@@@@@@@@@@@% .@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@. =@@@@@@@@@@@@@@@@@@@@@%  @@@  %@@@@@@@@@@@@@@@% .@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%  #@@@@@@@@@@@@@@@@@@@@@+   =@@@@@@@@@@@@@@@@@@%. #@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  *@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%  @@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%#  @@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  @@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%= :@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  #@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@+ .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%          #@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@         .@@@@@@      @@@@@@@@@@@@@@@@@@  %@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.      -%%%%.     @@@@@@       #%@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%%%%=      #%%%%%%@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+"""
+
 # ── constants ──────────────────────────────────────────────────────────────────
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
-ASCII_RAMP = "@%#*+=-:. "
 COMMENT_BLOCK_SIZE = 7
 CACHE_COMMENT_LINE = "This line is a comment block. Write whatever you want here.\n"
+
+# Stats dot widths (for GitHub Stats rows — these use different layout than info rows)
+REPO_DATA_WIDTH = 6
+STAR_DATA_WIDTH = 14
+COMMIT_DATA_WIDTH = 22
+FOLLOWER_DATA_WIDTH = 10
+LOC_DATA_WIDTH = 25
+VALUE_COLUMN = 28  # char column where info row values start (from right_x)
 
 # runtime state
 HEADERS = {}
@@ -88,12 +157,21 @@ def format_display_text(value):
 
 
 def build_dot_string(value_text, length):
-    """Build dot padding that visually separates a label from its value."""
+    """Build dot padding for stats rows (Vikbg-style)."""
     just_len = max(0, length - len(value_text))
     if just_len <= 2:
         dot_map = {0: "", 1: " ", 2: ". "}
         return dot_map[just_len]
     return " " + ("." * just_len) + " "
+
+
+def build_row_dots(label, value_column=VALUE_COLUMN):
+    """Build dot string that aligns the value to start at value_column."""
+    prefix = f". {label}:"
+    dots_needed = value_column - len(prefix) - 1
+    if dots_needed <= 0:
+        return " "
+    return "." * dots_needed + " "
 
 
 def format_compact_number(value):
@@ -478,59 +556,11 @@ def force_close_file(cache_rows, cache_header):
     print(f"Saved partial cache data to {filename}.")
 
 
-# ── ASCII art from image ───────────────────────────────────────────────────────
-
-
-def image2ascii(image_path, theme="light", width=25):
-    """Convert avatar.png to colored ASCII art.
-
-    Returns list of rows, each row is list of (character, hex_color) tuples.
-    """
-    img = Image.open(image_path).convert("L")  # grayscale
-
-    # Adjust height for monospace font (char height ≈ 2x char width)
-    aspect = img.height / img.width
-    height = int(width * aspect * 0.5)
-    img = img.resize((width, height), Image.LANCZOS)
-
-    ramp = ASCII_RAMP
-    ramp_len = len(ramp) - 1
-
-    # Cyan gradient endpoints per theme
-    if theme == "dark":
-        dark = (0, 77, 102)   # #004d66 — but keep it more visible on dark bg
-        dark = (0, 96, 128)   # #006080 — slightly brighter for visibility
-        bright = (0, 229, 255)  # #00e5ff
-    else:
-        dark = (0, 59, 77)     # #003b4d
-        bright = (0, 229, 255)  # #00e5ff
-
-    rows = []
-    for y in range(height):
-        row = []
-        for x in range(width):
-            pixel = img.getpixel((x, y))
-            char_index = int(pixel / 255 * ramp_len)
-            char = ramp[char_index]
-
-            # Linear interpolation for cyan color
-            t = pixel / 255.0
-            r = int(dark[0] + (bright[0] - dark[0]) * t)
-            g = int(dark[1] + (bright[1] - dark[1]) * t)
-            b = int(dark[2] + (bright[2] - dark[2]) * t)
-            color = f"#{r:02x}{g:02x}{b:02x}"
-
-            row.append((char, color))
-        rows.append(row)
-
-    return rows
-
-
 # ── SVG builder ────────────────────────────────────────────────────────────────
 
 
-def svg_builder(ascii_art, profile, stats, theme="light"):
-    """Generate complete SVG string from ASCII art, profile config, and stats."""
+def svg_builder(ascii_lines, profile, stats, theme="light"):
+    """Generate complete SVG string from ASCII art lines, profile config, and stats."""
 
     # ── color scheme ────────────────────────────────────────────────────────
     if theme == "dark":
@@ -554,7 +584,7 @@ def svg_builder(ascii_art, profile, stats, theme="light"):
     svg.append(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<svg xmlns="http://www.w3.org/2000/svg" '
-        'font-family="Consolas,monospace" width="985px" height="530px" '
+        'font-family="Consolas,monospace" width="1000px" height="570px" '
         'font-size="16px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
@@ -564,28 +594,30 @@ def svg_builder(ascii_art, profile, stats, theme="light"):
         ".cc {fill: " + dot_fill + ";}\n"
         "text, tspan {white-space: pre;}\n"
         "</style>\n"
-        f'<rect width="985px" height="530px" fill="{bg}" rx="15"/>\n'
+        f'<rect width="1000px" height="570px" fill="{bg}" rx="15"/>\n'
     )
 
-    # ── left panel: ASCII art ────────────────────────────────────────────────
-    svg.append(f'<text x="15" y="30" fill="{main_fill}" class="ascii">\n')
-    ascii_x = 15
-    char_width = 10  # approximate monospace char width at 16px Consolas
-    for i, row in enumerate(ascii_art):
+    # ── left panel: ASCII art (monochrome, no per-character coloring) ───────
+    left_x = 20
+    svg.append(f'<text x="{left_x}" y="30" fill="{main_fill}" class="ascii">\n')
+    for i, line in enumerate(ascii_lines):
         y = 30 + i * 20
-        svg.append(f'  <tspan x="{ascii_x}" y="{y}">')
-        for char, color in row:
-            svg.append(f'<tspan fill="{color}">{char}</tspan>')
-        svg.append("</tspan>\n")
+        svg.append(f'  <tspan x="{left_x}" y="{y}">{line}</tspan>\n')
     svg.append("</text>\n")
 
-    # ── right panel: info + stats ────────────────────────────────────────────
-    right_x = 390
-    svg.append(f'<text x="{right_x}" y="30" fill="{main_fill}">\n')
+    # ── right panel: info + stats ───────────────────────────────────────────
+    right_x = 410
 
-    # helper to add a row
-    def add_row(y, label, value, target_width=54):
-        dots = build_dot_string(value, target_width)
+    # helpers
+    def add_section_header(y, title, dash_count=32):
+        dashes = "\u2014" * dash_count
+        svg.append(
+            f'  <tspan x="{right_x}" y="{y}" fill="{main_fill}">'
+            f'- {title} {dashes}</tspan>\n'
+        )
+
+    def add_info_row(y, label, value):
+        dots = build_row_dots(label)
         svg.append(
             f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
             f'<tspan class="key">{label}</tspan>:'
@@ -593,43 +625,54 @@ def svg_builder(ascii_art, profile, stats, theme="light"):
             f'<tspan class="value">{value}</tspan>\n'
         )
 
-    def add_row_raw(y, text, css_class=""):
-        cls_attr = f' class="{css_class}"' if css_class else ""
-        svg.append(f'  <tspan x="{right_x}" y="{y}"{cls_attr}>{text}</tspan>\n')
+    def add_blank(y):
+        svg.append(f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>\n')
 
-    # username@hostname header
+    svg.append(f'<text x="{right_x}" y="30" fill="{main_fill}">\n')
+
+    # header bar
     header = f"{profile['username']}@{profile['hostname']}"
-    dashes = "\u2014" * 40
-    add_row_raw(30, header + " " + dashes)
+    dashes = "\u2014" * 28
+    svg.append(
+        f'  <tspan x="{right_x}" y="30">{header} {dashes}</tspan>\n'
+    )
 
-    # section: main info
-    add_row(50, "OS", profile["os"], 54)
-    add_row(70, "Uptime", stats["age"], 49)
-    add_row(90, "Host", profile["host"], 54)
-    add_row(110, "Kernel", profile["kernel"], 54)
-    add_row(130, "IDE", profile["ide"], 54)
-    add_row_raw(150, ". ")
+    y = 50
 
-    # section: languages
-    add_row(170, "Languages.Programming", profile["languages_programming"], 54)
-    add_row(190, "Languages.Computer", profile["languages_computer"], 54)
-    add_row(210, "Languages.Real", profile["languages_real"], 54)
-    add_row_raw(230, ". ")
+    # ── ABOUT ────────────────────────────────────────────────────────────
+    add_info_row(y, "About", profile["about_bio"]); y += 20
+    add_info_row(y, "Location", profile["location"]); y += 30
 
-    # section: hobbies
-    add_row(250, "Hobbies.Software", profile["hobbies_software"], 54)
-    add_row(270, "Hobbies.Hardware", profile["hobbies_hardware"], 54)
-    add_row(290, "Hobbies.Others", profile["hobbies_others"], 54)
-    add_row_raw(320, "- Contact " + ("\u2014" * 36))
+    # ── TECH STACK ───────────────────────────────────────────────────────
+    add_section_header(y, "Tech Stack"); y += 20
+    add_info_row(y, "Languages", profile["stack_languages"]); y += 20
+    add_info_row(y, "Frontend", profile["stack_frontend"]); y += 20
+    add_info_row(y, "Backend", profile["stack_backend"]); y += 20
+    add_info_row(y, "DevOps", profile["stack_devops"]); y += 20
+    add_info_row(y, "Tools", profile["stack_tools"]); y += 30
 
-    # section: contact
-    add_row(350, "Email.Personal", profile["contact_email_personal"], 54)
-    add_row(370, "Email.Work", profile["contact_email_work"], 54)
-    add_row(390, "Instagram", profile["contact_instagram"], 54)
-    add_row(410, "Discord", profile["contact_discord"], 54)
-    add_row_raw(450, "- GitHub Stats " + ("\u2014" * 33))
+    # ── CURRENTLY ────────────────────────────────────────────────────────
+    add_section_header(y, "Currently"); y += 20
+    add_info_row(y, "Learning", profile["learning"]); y += 20
+    add_info_row(y, "Building", profile["building"]); y += 20
+    add_info_row(y, "Reading", profile["reading"]); y += 30
 
-    # section: GitHub stats
+    # ── FEATURED ─────────────────────────────────────────────────────────
+    add_section_header(y, "Featured"); y += 20
+    add_info_row(y, profile["project_1_name"], profile["project_1_desc"]); y += 20
+    add_info_row(y, profile["project_2_name"], profile["project_2_desc"]); y += 30
+
+    # ── CONTACT ──────────────────────────────────────────────────────────
+    add_section_header(y, "Contact"); y += 20
+    add_info_row(y, "Email", profile["contact_email"]); y += 20
+    add_info_row(y, "LinkedIn", profile["contact_linkedin"]); y += 20
+    if profile.get("contact_discord"):
+        add_info_row(y, "Discord", profile["contact_discord"]); y += 20
+    y += 10
+
+    # ── GITHUB STATS ─────────────────────────────────────────────────────
+    add_section_header(y, "GitHub Stats"); y += 20
+
     repos_text = format_display_text(stats["repos"])
     contrib_text = format_display_text(stats["contributed"])
     stars_text = format_display_text(stats["stars"])
@@ -639,11 +682,11 @@ def svg_builder(ascii_art, profile, stats, theme="light"):
     loc_add = format_compact_number(stats["loc_add"])
     loc_del = format_compact_number(stats["loc_del"])
 
-    # repos row (with contributed and stars)
-    repos_dots = build_dot_string(repos_text, 6)
-    stars_dots = build_dot_string(stars_text, 14)
+    # repos | stars row
+    repos_dots = build_dot_string(repos_text, REPO_DATA_WIDTH)
+    stars_dots = build_dot_string(stars_text, STAR_DATA_WIDTH)
     svg.append(
-        f'  <tspan x="{right_x}" y="470" class="cc">. </tspan>'
+        f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">Repos</tspan>:'
         f'<tspan class="cc">{repos_dots}</tspan>'
         f'<tspan class="value">{repos_text}</tspan>'
@@ -653,13 +696,13 @@ def svg_builder(ascii_art, profile, stats, theme="light"):
         f'<tspan class="key">Stars</tspan>:'
         f'<tspan class="cc">{stars_dots}</tspan>'
         f'<tspan class="value">{stars_text}</tspan>\n'
-    )
+    ); y += 20
 
-    # commits row (with followers)
-    commits_dots = build_dot_string(commits_text, 22)
-    followers_dots = build_dot_string(followers_text, 10)
+    # commits | followers row
+    commits_dots = build_dot_string(commits_text, COMMIT_DATA_WIDTH)
+    followers_dots = build_dot_string(followers_text, FOLLOWER_DATA_WIDTH)
     svg.append(
-        f'  <tspan x="{right_x}" y="490" class="cc">. </tspan>'
+        f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">Commits</tspan>:'
         f'<tspan class="cc">{commits_dots}</tspan>'
         f'<tspan class="value">{commits_text}</tspan>'
@@ -667,12 +710,12 @@ def svg_builder(ascii_art, profile, stats, theme="light"):
         f'<tspan class="key">Followers</tspan>:'
         f'<tspan class="cc">{followers_dots}</tspan>'
         f'<tspan class="value">{followers_text}</tspan>\n'
-    )
+    ); y += 20
 
     # LOC row
-    loc_dots = build_dot_string(loc_net, 25)
+    loc_dots = build_dot_string(loc_net, LOC_DATA_WIDTH)
     svg.append(
-        f'  <tspan x="{right_x}" y="510" class="cc">. </tspan>'
+        f'  <tspan x="{right_x}" y="{y}" class="cc">. </tspan>'
         f'<tspan class="key">GitHub LOC</tspan>:'
         f'<tspan class="cc">{loc_dots}</tspan>'
         f'<tspan class="value">{loc_net}</tspan>'
@@ -766,24 +809,24 @@ def main():
         "contributed": contrib_data,
     }
 
-    # 9. ASCII art
-    print("Generating ASCII art...")
-    ascii_light, ascii_time = perf_counter(image2ascii, "avatar.png", "light", 25)
-    print_duration("ascii art (light)", ascii_time)
-    ascii_dark, _ = perf_counter(image2ascii, "avatar.png", "dark", 25)
+    # 9. Parse hardcoded ASCII art into lines
+    ascii_lines = [
+        line for line in HARDCODED_ASCII.split("\n")
+        if line.strip()  # skip empty lines
+    ]
 
-    # 10. Generate SVGs
+    # 10. Generate SVGs (same ASCII for both themes — monochrome)
     print("Generating SVGs...")
     with open("light_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_light, PROFILE, stats, theme="light"))
+        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="light"))
 
     with open("dark_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_dark, PROFILE, stats, theme="dark"))
+        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="dark"))
 
     # timing summary
     total_runtime = (
         user_time + age_time + loc_time + commit_time
-        + star_time + repo_time + contrib_time + follower_time + ascii_time
+        + star_time + repo_time + contrib_time + follower_time
     )
     print(f"{'Total function time:':<21} {total_runtime:>11.4f} s")
     print(f"Total GitHub GraphQL API calls: {sum(QUERY_COUNT.values()):>3}")
