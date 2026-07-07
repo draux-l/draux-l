@@ -513,14 +513,14 @@ def svg_builder(profile, stats, theme="light"):
 
     def add_section_header(title, dash_count=18):
         nonlocal y
-        dashes = "\u2014" * dash_count
+        dashes = "\u2500" * dash_count
         text_svg.append(
-            f'  <tspan x="0" y="{y}">'
-            f'- {title} {dashes}</tspan>\n'
+            f'  <tspan x="0" y="{y}" font-weight="bold" fill="{key_fill}">'
+            f'\u2500 {title} {dashes}</tspan>\n'
         )
         y += 17
 
-    def add_info_row(label, value, target_width=42):
+    def add_info_row(label, value, target_width=38):
         nonlocal y
         dots = build_dot_string(value, target_width)
         text_svg.append(
@@ -536,9 +536,14 @@ def svg_builder(profile, stats, theme="light"):
         y += px
 
     # header bar
-    header_text = f"{profile.get('username', 'user')}@{profile.get('hostname', 'host')}"
-    dashes = "\u2014" * 16
-    text_svg.append(f'  <tspan x="0" y="{y}">{header_text} {dashes}</tspan>\n')
+    line = "\u2500" * 26
+    text_svg.append(
+        f'  <tspan x="0" y="{y}" font-weight="bold" fill="{add_fill}">'
+        f'{profile.get("username", "user")}@{profile.get("hostname", "host")}'
+        f'</tspan>\n'
+    )
+    y += 17
+    text_svg.append(f'  <tspan x="0" y="{y}" fill="{dot_fill}">{line}</tspan>\n')
     y += 17
 
     # ── ABOUT ────────────────────────────────────────────────────────────
@@ -652,8 +657,8 @@ def svg_builder(profile, stats, theme="light"):
         '<svg xmlns="http://www.w3.org/2000/svg" '
         'font-family="Consolas,monospace" '
         'width="100%" height="100%" '
-        'viewBox="0 0 520 ' + str(canvas_height) + '" '
-        'font-size="13px">\n'
+        'viewBox="0 0 560 ' + str(canvas_height) + '" '
+        'font-size="14px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
         ".value {fill: " + value_fill + ";}\n"
