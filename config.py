@@ -15,8 +15,8 @@ PROFILE = {
     "about_bio": "Software Developer | Data enthusiast",
     "location":  "Arequipa - Perú",
     "about_long": (
-        "Backend dev with a passion for data science "
-        "and continuous learning. Community volunteer."
+        "Backend dev with a passion for data science"
+        " and continuous learning. Community volunteer."
     ),
 
     # ── TECH STACK ────────────────────────────────────────
@@ -27,7 +27,6 @@ PROFILE = {
 
     # ── CURRENTLY ─────────────────────────────────────────
     "learning": "Data Science (Alura LATAM)",
-    "building": "Backend projects with Django",
     "goals":    "Looking for opportunities to grow",
 
     # ── LANGUAGES ─────────────────────────────────────────
