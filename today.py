@@ -515,7 +515,7 @@ def svg_builder(profile, stats, theme="light"):
         nonlocal y
         dashes = "\u2500" * dash_count
         text_svg.append(
-            f'  <tspan x="0" y="{y}" font-weight="bold" fill="{main_fill}">'
+            f'  <tspan x="0" y="{y}" font-weight="bold" font-size="13px" fill="{main_fill}">'
             f'\u2500 {title} {dashes}</tspan>\n'
         )
         y += 15
@@ -665,7 +665,7 @@ def svg_builder(profile, stats, theme="light"):
         '<svg xmlns="http://www.w3.org/2000/svg" '
         'font-family="Consolas,monospace" '
         'width="100%" height="100%" '
-        'viewBox="0 0 440 ' + str(canvas_height) + '" '
+        'viewBox="0 0 500 ' + str(canvas_height) + '" '
         'font-size="12px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
