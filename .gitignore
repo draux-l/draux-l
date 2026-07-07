@@ -4,5 +4,3 @@ __pycache__/
 cache/*.txt
 !cache/requirements.txt
 INSTRUCTIONS.md
-ASCII_ART_PIPELINE.md
-README para hacer ASCCI.md
