@@ -520,7 +520,7 @@ def svg_builder(profile, stats, theme="light"):
         )
         y += 22
 
-    def add_info_row(label, value, target_width=38):
+    def add_info_row(label, value, target_width=42):
         nonlocal y
         dots = build_dot_string(value, target_width)
         text_svg.append(
@@ -652,7 +652,7 @@ def svg_builder(profile, stats, theme="light"):
         '<svg xmlns="http://www.w3.org/2000/svg" '
         'font-family="Consolas,monospace" '
         'width="100%" height="100%" '
-        'viewBox="0 0 420 ' + str(canvas_height) + '" '
+        'viewBox="0 0 520 ' + str(canvas_height) + '" '
         'font-size="16px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"

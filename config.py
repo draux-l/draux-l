@@ -1,47 +1,43 @@
-# ═══════════════════════════════════════════════════════════════
-#  CONFIG — Edit this file to personalize your profile README
-#  Every field with a placeholder has # <-- CAMBIAR next to it
-# ═══════════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════════════
+#                           CONFIG
+#     Edit this file to personalize your profile README.
+#     Every value can be changed — nothing else needs to be touched.
+# ═══════════════════════════════════════════════════════════════════
 
-BIRTHDAY = None  # <-- Omitido por privacidad. Si el script requiere una tupla, usa (2000, 1, 1) como fallback.
+BIRTHDAY = None  # privacy omitted — fallback: (2000, 1, 1)
 
 PROFILE = {
     # ── IDENTITY ──────────────────────────────────────────
     "username": "draux-l",
     "hostname": "dllanos",
 
-    # ── ABOUT ────────────────────────────────────────────
+    # ── ABOUT ─────────────────────────────────────────────
     "about_bio": "Software Developer | Data enthusiast",
-    "location": "Arequipa - Perú",
-
-    # ── ABOUT (extended — short prose for the "About Me" section) ──
+    "location":  "Arequipa - Per",
     "about_long": (
-        " Backend developer with a passion for data "
-        " science and continuous learning. "
-        " I volunteer in my community and I'm always "
-        " looking for opportunities to grow."
+        "Backend dev with a passion for data science "
+        "and continuous learning. Community volunteer."
     ),
 
-    # ── LANGUAGES (spoken, not programming) ───────────────
+    # ── TECH STACK ────────────────────────────────────────
+    "stack_core":   "Python, Django, JS, TS, React",
+    "stack_devops": "Docker, GitHub, Oracle Cloud",
+    "stack_data":   "Pandas, NumPy, Statistics",
+    "stack_os":     "Windows, Ubuntu (Linux)",
+
+    # ── CURRENTLY ─────────────────────────────────────────
+    "learning": "Data Science (Alura LATAM)",
+    "building": "Backend projects with Django",
+    "goals":    "Looking for opportunities to grow",
+
+    # ── LANGUAGES ─────────────────────────────────────────
     "languages_spoken": "Spanish (native), English (learning)",
 
-    # ── TECH STACK (organized by skill level) ─────────────
-    "stack_core": "Python, Django, JavaScript, TypeScript, React",  # strong, solid foundation
-    "stack_devops": "Docker, GitHub, Oracle Cloud",                                       # practicing
-    "stack_data": "Pandas, NumPy, Statistics",                      # currently learning
-    "stack_os": "Windows, Ubuntu (Linux)",                          # systems you work with
-
-    # ── CURRENTLY ────────────────────────────────────────
-    "learning": "Data Science (Alura LATAM)",
-
-    # ── GOALS ──────────────────────────────────────────────
-    "goals": "Looking for opportunities that help me grow",
-
-    # ── HOBBIES ─────────────────────────────────────────────
+    # ── HOBBIES ────────────────────────────────────────────
     "hobbies": "Community volunteering, continuous learning",
 
-    # ── CONTACT ──────────────────────────────────────────
-    "contact_email": "llanosgarciadiego@gmail.com",
+    # ── CONTACT ───────────────────────────────────────────
+    "contact_email":    "llanosgarciadiego@gmail.com",
     "contact_linkedin": "linkedin.com/in/diegollanosg",
-    "contact_discord": "draux.l",
+    "contact_discord":  "draux.l",
 }
