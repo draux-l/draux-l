@@ -25,7 +25,7 @@ load_dotenv()
 
 # ── constants ──────────────────────────────────────────────────────────────────
 
-ASCII_WIDTH = 90  # chars wide for left panel
+ASCII_WIDTH = 120  # chars wide for left panel
 ASCII_RAMP = " .:-=+*#%@"  # 10 levels, used for dithering quantization only
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
@@ -520,7 +520,7 @@ def image2ascii(image_path, theme="light"):
 
     # ── 5. Adjustments ──────────────────────────────────────────────────────
     contrast = 2.0
-    brightness = 2.0
+    brightness = 2.5
     gamma = 1.2
 
     luma = (luma - 0.5) * contrast + 0.5
