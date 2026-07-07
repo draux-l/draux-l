@@ -515,14 +515,22 @@ def svg_builder(profile, stats, theme="light"):
         nonlocal y
         dashes = "\u2500" * dash_count
         text_svg.append(
-            f'  <tspan x="0" y="{y}" font-weight="bold" fill="{key_fill}">'
+            f'  <tspan x="0" y="{y}" font-weight="bold" fill="{main_fill}">'
             f'\u2500 {title} {dashes}</tspan>\n'
         )
         y += 15
 
-    def add_info_row(label, value, target_width=38):
+    def add_info_row(label, value):
         nonlocal y
-        dots = build_dot_string(value, target_width)
+        VALUE_START = 28
+        prefix = f". {label}:"
+        dots_needed = max(0, VALUE_START - len(prefix) - 1)
+        if dots_needed <= 0:
+            dots = " "
+        elif dots_needed <= 2:
+            dots = {1: " ", 2: ". "}[dots_needed]
+        else:
+            dots = " " + "." * (dots_needed - 2) + " "
         text_svg.append(
             f'  <tspan x="0" y="{y}" class="cc">. </tspan>'
             f'<tspan class="key">{label}</tspan>:'
