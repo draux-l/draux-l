@@ -518,7 +518,7 @@ def svg_builder(profile, stats, theme="light"):
             f'  <tspan x="0" y="{y}" font-weight="bold" fill="{key_fill}">'
             f'\u2500 {title} {dashes}</tspan>\n'
         )
-        y += 17
+        y += 15
 
     def add_info_row(label, value, target_width=38):
         nonlocal y
@@ -529,7 +529,7 @@ def svg_builder(profile, stats, theme="light"):
             f'<tspan class="cc">{dots}</tspan>'
             f'<tspan class="value">{value}</tspan>\n'
         )
-        y += 17
+        y += 15
 
     def add_gap(px=8):
         nonlocal y
@@ -542,9 +542,9 @@ def svg_builder(profile, stats, theme="light"):
         f'{profile.get("username", "user")}@{profile.get("hostname", "host")}'
         f'</tspan>\n'
     )
-    y += 17
+    y += 15
     text_svg.append(f'  <tspan x="0" y="{y}" fill="{dot_fill}">{line}</tspan>\n')
-    y += 17
+    y += 15
 
     # ── ABOUT ────────────────────────────────────────────────────────────
     if profile.get("about_bio"):
@@ -621,7 +621,7 @@ def svg_builder(profile, stats, theme="light"):
         f'<tspan class="key">Stars</tspan>:'
         f'<tspan class="cc">{stars_dots}</tspan>'
         f'<tspan class="value">{stars_text}</tspan>\n'
-    ); y += 17
+    ); y += 15
 
     commits_dots = build_dot_string(commits_text, COMMIT_DATA_WIDTH)
     followers_dots = build_dot_string(followers_text, FOLLOWER_DATA_WIDTH)
@@ -634,7 +634,7 @@ def svg_builder(profile, stats, theme="light"):
         f'<tspan class="key">Followers</tspan>:'
         f'<tspan class="cc">{followers_dots}</tspan>'
         f'<tspan class="value">{followers_text}</tspan>\n'
-    ); y += 17
+    ); y += 15
 
     loc_dots = build_dot_string(loc_net, LOC_DATA_WIDTH)
     text_svg.append(
@@ -658,7 +658,7 @@ def svg_builder(profile, stats, theme="light"):
         'font-family="Consolas,monospace" '
         'width="100%" height="100%" '
         'viewBox="0 0 440 ' + str(canvas_height) + '" '
-        'font-size="13.5px">\n'
+        'font-size="12px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
         ".value {fill: " + value_fill + ";}\n"
