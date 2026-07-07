@@ -26,7 +26,7 @@ load_dotenv()
 # ── constants ──────────────────────────────────────────────────────────────────
 
 ASCII_WIDTH = 50  # chars wide for left panel
-ASCII_RAMP = " .:-=+*#%@"  # inverted: light chars first (for dark backgrounds)
+ASCII_RAMP = " .·,;:^~+*¬░▒▓"  # subtle dot-based ramp, no letters
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
