@@ -16,8 +16,6 @@ from pathlib import Path
 import requests
 from dateutil import relativedelta
 from dotenv import load_dotenv
-import numpy as np
-from PIL import Image, ImageFilter
 
 from config import BIRTHDAY, PROFILE
 
@@ -25,8 +23,7 @@ load_dotenv()
 
 # ── constants ──────────────────────────────────────────────────────────────────
 
-ASCII_WIDTH = 120  # chars wide for left panel
-ASCII_RAMP = " .:-=+*#%@"  # 10 levels, used for dithering quantization only
+MAX_ASCII_WIDTH = 100  # truncate avatar_ascii.txt lines to this width
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
@@ -488,105 +485,35 @@ def force_close_file(cache_rows, cache_header):
     print(f"Saved partial cache data to {filename}.")
 
 
-# ── ASCII art generator ────────────────────────────────────────────────────────
+# ── ASCII art reader ───────────────────────────────────────────────────────────
 
 
-def image2ascii(image_path, theme="light"):
-    """Convert avatar.png using ascii-vision pipeline → single-char · with grayscale.
-
-    Steps: downscale → sharpen → BT.709 luma → auto-contrast → contrast/brightness/gamma
-    → Floyd-Steinberg dithering → color mapping (bg→text gradient per theme).
-    """
-    img = Image.open(image_path).convert("RGB")
-
-    # ── 1. Downsampling with aspect correction ─────────────────────────────
-    aspect = img.height / img.width
-    new_width = ASCII_WIDTH
-    new_height = int(aspect * new_width * 0.6)
-    img = img.resize((new_width, new_height), Image.LANCZOS)
-
-    # ── 2. Sharpening (unsharp mask) ───────────────────────────────────────
-    img = img.filter(ImageFilter.UnsharpMask(radius=1, percent=100, threshold=2))
-
-    # ── 3. BT.709 Luma (perceptual) ─────────────────────────────────────────
-    arr = np.array(img, dtype=float)
-    r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
-    luma = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255.0
-
-    # ── 4. Auto-contrast (min-max stretch) ──────────────────────────────────
-    l_min, l_max = luma.min(), luma.max()
-    if l_max - l_min > 1e-8:
-        luma = (luma - l_min) / (l_max - l_min)
-
-    # ── 5. Adjustments ──────────────────────────────────────────────────────
-    contrast = 2.0
-    brightness = 2.5
-    gamma = 1.2
-
-    luma = (luma - 0.5) * contrast + 0.5
-    luma = luma + (brightness - 1)
-    luma = np.clip(luma, 0, 1)
-    luma = np.power(luma, 1.0 / gamma)
-    luma = np.clip(luma, 0, 1)
-
-    # ── 6. Floyd-Steinberg dithering ────────────────────────────────────────
-    steps = len(ASCII_RAMP) - 1
-    h, w = luma.shape
-    for y_ in range(h):
-        for x_ in range(w):
-            old_val = luma[y_, x_]
-            new_val = round(old_val * steps) / steps
-            error = old_val - new_val
-            luma[y_, x_] = new_val
-            if x_ + 1 < w:
-                luma[y_, x_ + 1] += error * (7 / 16)
-            if y_ + 1 < h:
-                if x_ - 1 >= 0:
-                    luma[y_ + 1, x_ - 1] += error * (3 / 16)
-                luma[y_ + 1, x_] += error * (5 / 16)
-                if x_ + 1 < w:
-                    luma[y_ + 1, x_ + 1] += error * (1 / 16)
-
-    # ── 7. Grayscale color mapping (single-char) ────────────────────────────
-    if theme == "dark":
-        bg_rgb = (0x0d, 0x11, 0x17)
-        text_rgb = (0xc9, 0xd1, 0xd9)
-    else:
-        bg_rgb = (0xf6, 0xf8, 0xfa)
-        text_rgb = (0x24, 0x29, 0x2f)
-
-    rows = []
-    for y_ in range(h):
-        row = []
-        for x_ in range(w):
-            t = float(luma[y_, x_])
-            r = int(bg_rgb[0] + (text_rgb[0] - bg_rgb[0]) * t)
-            g = int(bg_rgb[1] + (text_rgb[1] - bg_rgb[1]) * t)
-            b = int(bg_rgb[2] + (text_rgb[2] - bg_rgb[2]) * t)
-            color = f"#{r:02x}{g:02x}{b:02x}"
-            row.append(("░", color))
-        rows.append(row)
-
-    return rows
+def read_ascii_art(filepath="avatar_ascii.txt", max_width=MAX_ASCII_WIDTH):
+    """Read external ASCII art file and return clean, trimmed lines."""
+    with open(filepath, encoding="utf-8") as f:
+        lines = [line.rstrip("\n") for line in f.readlines()]
+    # truncate lines wider than max_width
+    lines = [line[:max_width] if len(line) > max_width else line for line in lines]
+    # strip trailing empty lines
+    while lines and not lines[-1].strip():
+        lines.pop()
+    return lines
 
 
-def build_ascii_svg(ascii_rows, start_x=15, start_y=30):
-    """Generate SVG tspans — per-character colored for single-char mode."""
+def build_ascii_svg(ascii_lines, start_x=15, start_y=30):
+    """Generate SVG tspans — one per line, monochrome."""
     parts = []
-    for row_idx, row in enumerate(ascii_rows):
-        y = start_y + row_idx * 20
-        parts.append(f'  <tspan x="{start_x}" y="{y}">')
-        for char, color in row:
-            escaped = char.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-            parts.append(f'<tspan fill="{color}">{escaped}</tspan>')
-        parts.append("</tspan>\n")
+    for i, line in enumerate(ascii_lines):
+        y = start_y + i * 20
+        escaped = line.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        parts.append(f'  <tspan x="{start_x}" y="{y}">{escaped}</tspan>\n')
     return "".join(parts)
 
 
 # ── SVG builder ────────────────────────────────────────────────────────────────
 
 
-def svg_builder(ascii_rows, profile, stats, theme="light"):
+def svg_builder(ascii_lines, profile, stats, theme="light"):
     """Generate complete SVG — neofetch-style with ASCII art (left) + stats (right)."""
 
     # ── color scheme ────────────────────────────────────────────────────────
@@ -609,7 +536,7 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
 
     # ── layout constants ────────────────────────────────────────────────────
     LEFT_X = 15
-    ascii_char_count = len(ascii_rows[0]) if ascii_rows else 50
+    ascii_char_count = max(len(line) for line in ascii_lines) if ascii_lines else 50
     image_px = int(ascii_char_count * 9.6 + LEFT_X)
     RIGHT_X = image_px + 35   # gutter
     CANVAS_W = RIGHT_X + 550  # text panel width
@@ -754,7 +681,7 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
     )
 
     # ── compute layout ─────────────────────────────────────────────────────
-    ascii_height = len(ascii_rows) * 20  # px
+    ascii_height = len(ascii_lines) * 20  # px
     text_height = y - 30
     if ascii_height > text_height:
         text_offset_y = (ascii_height - text_height) // 2
@@ -783,7 +710,7 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
 
     # ── left panel: ASCII art ──────────────────────────────────────────────
     svg.append(f'<text x="{LEFT_X}" y="30" fill="{main_fill}">\n')
-    svg.append(build_ascii_svg(ascii_rows, start_x=LEFT_X, start_y=30))
+    svg.append(build_ascii_svg(ascii_lines, start_x=LEFT_X, start_y=30))
     svg.append("</text>\n")
 
     # ── right panel: text (with vertical centering) ────────────────────────
@@ -877,24 +804,22 @@ def main():
         "contributed": contrib_data,
     }
 
-    # 9. Generate ASCII art (per-theme grayscale)
-    print("Generating ASCII art...")
-    ascii_light, ascii_time = perf_counter(image2ascii, "avatar.png", "light")
-    print_duration("ascii art (light)", ascii_time)
-    ascii_dark, _ = perf_counter(image2ascii, "avatar.png", "dark")
+    # 9. Read ASCII art from file (same for both themes — monochrome)
+    print("Reading ASCII art...")
+    ascii_lines = read_ascii_art("avatar_ascii.txt")
 
     # 10. Generate SVGs
     print("Generating SVGs...")
     with open("light_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_light, PROFILE, stats, theme="light"))
+        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="light"))
 
     with open("dark_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_dark, PROFILE, stats, theme="dark"))
+        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="dark"))
 
     # timing summary
     total_runtime = (
         user_time + age_time + loc_time + commit_time
-        + star_time + repo_time + contrib_time + follower_time + ascii_time
+        + star_time + repo_time + contrib_time + follower_time
     )
     print(f"{'Total function time:':<21} {total_runtime:>11.4f} s")
     print(f"Total GitHub GraphQL API calls: {sum(QUERY_COUNT.values()):>3}")
