@@ -509,7 +509,7 @@ def svg_builder(profile, stats, theme="light"):
 
     # ── build text panel ────────────────────────────────────────────────────
     text_svg = []
-    y = 0
+    y = 12
 
     def add_section_header(title, dash_count=18):
         nonlocal y
@@ -538,7 +538,7 @@ def svg_builder(profile, stats, theme="light"):
     # header bar
     line = "\u2500" * 26
     text_svg.append(
-        f'  <tspan x="0" y="{y}" font-weight="bold" fill="{add_fill}">'
+        f'  <tspan x="0" y="{y}" font-size="15px" font-weight="bold" fill="{add_fill}">'
         f'{profile.get("username", "user")}@{profile.get("hostname", "host")}'
         f'</tspan>\n'
     )
@@ -648,7 +648,7 @@ def svg_builder(profile, stats, theme="light"):
         f'<tspan class="delColor">{loc_del}</tspan> )\n'
     )
 
-    canvas_height = y + 20
+    canvas_height = y + 24
 
     # ── build SVG ──────────────────────────────────────────────────────────
     svg = []
@@ -667,8 +667,9 @@ def svg_builder(profile, stats, theme="light"):
         ".cc {fill: " + dot_fill + ";}\n"
         "text, tspan {white-space: pre;}\n"
         "</style>\n"
+        f'<rect width="100%" height="100%" fill="{bg}" rx="6"/>\n'
     )
-    svg.append(f'<text x="0" y="10" fill="{main_fill}">\n')
+    svg.append(f'<text x="0" y="12" fill="{main_fill}">\n')
     svg.extend(text_svg)
     svg.append("</text>\n")
     svg.append("</svg>\n")
