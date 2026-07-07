@@ -538,7 +538,7 @@ def svg_builder(profile, stats, theme="light"):
     # header bar
     line = "\u2500" * 26
     text_svg.append(
-        f'  <tspan x="0" y="{y}" font-size="15px" font-weight="bold" fill="{add_fill}">'
+        f'  <tspan x="0" y="{y}" font-size="16px" font-weight="bold" fill="{add_fill}">'
         f'{profile.get("username", "user")}@{profile.get("hostname", "host")}'
         f'</tspan>\n'
     )
@@ -658,7 +658,7 @@ def svg_builder(profile, stats, theme="light"):
         'font-family="Consolas,monospace" '
         'width="100%" height="100%" '
         'viewBox="0 0 560 ' + str(canvas_height) + '" '
-        'font-size="14px">\n'
+        'font-size="15px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
         ".value {fill: " + value_fill + ";}\n"
