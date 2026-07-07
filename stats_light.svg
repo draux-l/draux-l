@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="100%" height="100%" viewBox="0 0 440 462" font-size="12px">
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="100%" height="100%" viewBox="0 0 440 447" font-size="12px">
 <style>
 .key {fill: #953800;}
 .value {fill: #0a3069;}
@@ -23,19 +23,18 @@ text, tspan {white-space: pre;}
   <tspan x="0" y="168" class="cc">. </tspan><tspan class="key">OS</tspan>:<tspan class="cc"> ...................... </tspan><tspan class="value">Windows, Ubuntu (Linux)</tspan>
   <tspan x="0" y="189" font-weight="bold" font-size="13px" fill="#24292f">─ Currently ──────────────────</tspan>
   <tspan x="0" y="204" class="cc">. </tspan><tspan class="key">Learning</tspan>:<tspan class="cc"> ................ </tspan><tspan class="value">Data Science (Alura LATAM)</tspan>
-  <tspan x="0" y="219" class="cc">. </tspan><tspan class="key">Building</tspan>:<tspan class="cc"> ................ </tspan><tspan class="value">Backend projects with Django</tspan>
-  <tspan x="0" y="234" class="cc">. </tspan><tspan class="key">Goals</tspan>:<tspan class="cc"> ................... </tspan><tspan class="value">Looking for opportunities to grow</tspan>
-  <tspan x="0" y="255" font-weight="bold" font-size="13px" fill="#24292f">─ Languages ──────────────────</tspan>
-  <tspan x="0" y="270" class="cc">. </tspan><tspan class="key">Spoken</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">Spanish (native), English (learning)</tspan>
-  <tspan x="0" y="291" font-weight="bold" font-size="13px" fill="#24292f">─ Hobbies ──────────────────</tspan>
-  <tspan x="0" y="306" class="cc">. </tspan><tspan class="key">Interests</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">Community volunteering, continuous learning</tspan>
-  <tspan x="0" y="327" font-weight="bold" font-size="13px" fill="#24292f">─ Contact ──────────────────</tspan>
-  <tspan x="0" y="342" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc"> ................... </tspan><tspan class="value">llanosgarciadiego@gmail.com</tspan>
-  <tspan x="0" y="357" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> ................ </tspan><tspan class="value">linkedin.com/in/diegollanosg</tspan>
-  <tspan x="0" y="372" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> ................. </tspan><tspan class="value">draux.l</tspan>
-  <tspan x="0" y="393" font-weight="bold" font-size="13px" fill="#24292f">─ GitHub Stats ──────────────────</tspan>
-  <tspan x="0" y="408" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
-  <tspan x="0" y="423" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">86</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">2</tspan>
-  <tspan x="0" y="438" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">107,861</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">113.6K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">5.7K</tspan> )
+  <tspan x="0" y="219" class="cc">. </tspan><tspan class="key">Goals</tspan>:<tspan class="cc"> ................... </tspan><tspan class="value">Looking for opportunities to grow</tspan>
+  <tspan x="0" y="240" font-weight="bold" font-size="13px" fill="#24292f">─ Languages ──────────────────</tspan>
+  <tspan x="0" y="255" class="cc">. </tspan><tspan class="key">Spoken</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">Spanish (native), English (learning)</tspan>
+  <tspan x="0" y="276" font-weight="bold" font-size="13px" fill="#24292f">─ Hobbies ──────────────────</tspan>
+  <tspan x="0" y="291" class="cc">. </tspan><tspan class="key">Interests</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">Community volunteering, continuous learning</tspan>
+  <tspan x="0" y="312" font-weight="bold" font-size="13px" fill="#24292f">─ Contact ──────────────────</tspan>
+  <tspan x="0" y="327" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc"> ................... </tspan><tspan class="value">llanosgarciadiego@gmail.com</tspan>
+  <tspan x="0" y="342" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> ................ </tspan><tspan class="value">linkedin.com/in/diegollanosg</tspan>
+  <tspan x="0" y="357" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> ................. </tspan><tspan class="value">draux.l</tspan>
+  <tspan x="0" y="378" font-weight="bold" font-size="13px" fill="#24292f">─ GitHub Stats ──────────────────</tspan>
+  <tspan x="0" y="393" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
+  <tspan x="0" y="408" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">87</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">2</tspan>
+  <tspan x="0" y="423" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">107,860</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">113.6K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">5.7K</tspan> )
 </text>
 </svg>
