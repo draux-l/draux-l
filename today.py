@@ -16,7 +16,8 @@ from pathlib import Path
 import requests
 from dateutil import relativedelta
 from dotenv import load_dotenv
-from PIL import Image, ImageEnhance, ImageFilter, ImageOps
+import numpy as np
+from PIL import Image, ImageFilter
 
 from config import BIRTHDAY, PROFILE
 
@@ -25,7 +26,7 @@ load_dotenv()
 # ── constants ──────────────────────────────────────────────────────────────────
 
 ASCII_WIDTH = 50  # chars wide for left panel
-ASCII_RAMP = " .:-=+*#%@"  # 8-level ramp, dark to light
+ASCII_RAMP = "@%#*+=-:. "  # 10-level ramp, dark to light (from ascii-vision)
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
@@ -491,41 +492,69 @@ def force_close_file(cache_rows, cache_header):
 
 
 def image2ascii(image_path):
-    """Convert avatar.png to high-contrast monochrome ASCII art.
+    """Convert avatar.png to monochrome ASCII art using the ascii-vision pipeline.
 
-    Designed for images with dark backgrounds — inverts, boosts contrast,
-    and applies aggressive histogram stretching so the figure pops.
+    Steps: downscale → sharpen → BT.709 luma → auto-contrast → contrast/brightness/gamma
+    → Floyd-Steinberg dithering → character mapping.
     """
-    img = Image.open(image_path).convert("L")
+    img = Image.open(image_path).convert("RGB")
 
-    # 1. Invert so dark background → light, bright figure → dark characters
-    img = ImageOps.invert(img)
-
-    # 2. Aggressive contrast boost
-    img = ImageEnhance.Contrast(img).enhance(2.5)
-
-    # 3. Stretch histogram with higher cutoff
-    img = ImageOps.autocontrast(img, cutoff=5)
-
-    # 4. Sharpen edges
-    img = img.filter(ImageFilter.UnsharpMask(radius=1, percent=100, threshold=2))
-
-    # 5. Resize (char is ~2x taller than wide)
+    # ── 1. Downsampling with aspect correction ─────────────────────────────
     aspect = img.height / img.width
     new_width = ASCII_WIDTH
-    new_height = int(aspect * new_width * 0.5)
+    new_height = int(aspect * new_width * 0.6)
     img = img.resize((new_width, new_height), Image.LANCZOS)
 
-    # 6. Map brightness to character
-    ramp = ASCII_RAMP
-    ramp_len = len(ramp) - 1
+    # ── 2. Sharpening (unsharp mask 4-neighbor) ────────────────────────────
+    img = img.filter(ImageFilter.UnsharpMask(radius=1, percent=100, threshold=2))
 
+    # ── 3. BT.709 Luma (perceptual) ─────────────────────────────────────────
+    arr = np.array(img, dtype=float)
+    r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
+    luma = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255.0
+
+    # ── 4. Auto-contrast (min-max stretch) ──────────────────────────────────
+    l_min, l_max = luma.min(), luma.max()
+    if l_max - l_min > 1e-8:
+        luma = (luma - l_min) / (l_max - l_min)
+
+    # ── 5. Adjustments in correct order ─────────────────────────────────────
+    contrast = 2.0
+    brightness = 1.2
+    gamma = 1.2
+
+    luma = (luma - 0.5) * contrast + 0.5        # contrast
+    luma = luma + (brightness - 1)               # brightness
+    luma = np.clip(luma, 0, 1)                   # clamp
+    luma = np.power(luma, 1.0 / gamma)           # gamma
+    luma = np.clip(luma, 0, 1)                   # final clamp
+
+    # ── 6. Floyd-Steinberg dithering ────────────────────────────────────────
+    ramp = ASCII_RAMP
+    steps = len(ramp) - 1  # quantization levels
+    h, w = luma.shape
+    for y_ in range(h):
+        for x_ in range(w):
+            old_val = luma[y_, x_]
+            new_val = round(old_val * steps) / steps
+            error = old_val - new_val
+            luma[y_, x_] = new_val
+
+            if x_ + 1 < w:
+                luma[y_, x_ + 1] += error * (7 / 16)
+            if y_ + 1 < h:
+                if x_ - 1 >= 0:
+                    luma[y_ + 1, x_ - 1] += error * (3 / 16)
+                luma[y_ + 1, x_] += error * (5 / 16)
+                if x_ + 1 < w:
+                    luma[y_ + 1, x_ + 1] += error * (1 / 16)
+
+    # ── 7. Character mapping ────────────────────────────────────────────────
     lines = []
-    for y in range(new_height):
+    for y_ in range(h):
         chars = []
-        for x in range(new_width):
-            pixel = img.getpixel((x, y))
-            idx = int(pixel / 255 * ramp_len)
+        for x_ in range(w):
+            idx = int(luma[y_, x_] * steps)
             chars.append(ramp[idx])
         lines.append("".join(chars))
 
