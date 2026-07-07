@@ -520,29 +520,9 @@ def svg_builder(profile, stats, theme="light"):
         )
         y += 15
 
-    def _wrap_text(text, max_chars):
-        """Split text into lines respecting word boundaries."""
-        words = text.split()
-        if not words:
-            return [text]
-        lines, cur, cur_len = [], [], 0
-        for w in words:
-            add = len(w) + (1 if cur else 0)
-            if cur_len + add <= max_chars:
-                cur.append(w)
-                cur_len += add
-            else:
-                if cur:
-                    lines.append(" ".join(cur))
-                cur, cur_len = [w], len(w)
-        if cur:
-            lines.append(" ".join(cur))
-        return lines if lines else [text]
-
     def add_info_row(label, value):
         nonlocal y
         VALUE_START = 30
-        VALUE_CHARS = 32
         prefix = f". {label}:"
         dots_needed = max(0, VALUE_START - len(prefix) - 1)
         if dots_needed <= 0:
@@ -551,23 +531,13 @@ def svg_builder(profile, stats, theme="light"):
             dots = {1: " ", 2: ". "}[dots_needed]
         else:
             dots = " " + "." * (dots_needed - 2) + " "
-
-        lines = _wrap_text(value, VALUE_CHARS) if len(value) > VALUE_CHARS else [value]
-
         text_svg.append(
             f'  <tspan x="0" y="{y}" class="cc">. </tspan>'
             f'<tspan class="key">{label}</tspan>:'
             f'<tspan class="cc">{dots}</tspan>'
-            f'<tspan class="value">{lines[0]}</tspan>\n'
+            f'<tspan class="value">{value}</tspan>\n'
         )
         y += 15
-
-        INDENT_PX = int(VALUE_START * 7.2)
-        for line in lines[1:]:
-            text_svg.append(
-                f'  <tspan x="{INDENT_PX}" y="{y}" class="value">{line}</tspan>\n'
-            )
-            y += 15
 
     def add_gap(px=8):
         nonlocal y
