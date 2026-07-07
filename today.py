@@ -564,7 +564,7 @@ def image2ascii(image_path, theme="light"):
             g = int(bg_rgb[1] + (text_rgb[1] - bg_rgb[1]) * t)
             b = int(bg_rgb[2] + (text_rgb[2] - bg_rgb[2]) * t)
             color = f"#{r:02x}{g:02x}{b:02x}"
-            row.append(("·", color))
+            row.append(("░", color))
         rows.append(row)
 
     return rows
