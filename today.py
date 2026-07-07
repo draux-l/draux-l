@@ -26,7 +26,7 @@ load_dotenv()
 # ── constants ──────────────────────────────────────────────────────────────────
 
 ASCII_WIDTH = 50  # chars wide for left panel
-ASCII_RAMP = " ░▒▓█"  # ramp D: solid blocks only, 4 levels
+ASCII_RAMP = " .:-=+*#%@"  # 10 levels, used for dithering quantization only
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
 CACHE_DIR = Path("cache")
@@ -491,11 +491,11 @@ def force_close_file(cache_rows, cache_header):
 # ── ASCII art generator ────────────────────────────────────────────────────────
 
 
-def image2ascii(image_path):
-    """Convert avatar.png to monochrome ASCII art using the ascii-vision pipeline.
+def image2ascii(image_path, theme="light"):
+    """Convert avatar.png using ascii-vision pipeline → single-char · with grayscale.
 
     Steps: downscale → sharpen → BT.709 luma → auto-contrast → contrast/brightness/gamma
-    → Floyd-Steinberg dithering → character mapping.
+    → Floyd-Steinberg dithering → color mapping (bg→text gradient per theme).
     """
     img = Image.open(image_path).convert("RGB")
 
@@ -505,7 +505,7 @@ def image2ascii(image_path):
     new_height = int(aspect * new_width * 0.6)
     img = img.resize((new_width, new_height), Image.LANCZOS)
 
-    # ── 2. Sharpening (unsharp mask 4-neighbor) ────────────────────────────
+    # ── 2. Sharpening (unsharp mask) ───────────────────────────────────────
     img = img.filter(ImageFilter.UnsharpMask(radius=1, percent=100, threshold=2))
 
     # ── 3. BT.709 Luma (perceptual) ─────────────────────────────────────────
@@ -518,20 +518,19 @@ def image2ascii(image_path):
     if l_max - l_min > 1e-8:
         luma = (luma - l_min) / (l_max - l_min)
 
-    # ── 5. Adjustments in correct order ─────────────────────────────────────
+    # ── 5. Adjustments ──────────────────────────────────────────────────────
     contrast = 2.0
     brightness = 1.2
     gamma = 1.2
 
-    luma = (luma - 0.5) * contrast + 0.5        # contrast
-    luma = luma + (brightness - 1)               # brightness
-    luma = np.clip(luma, 0, 1)                   # clamp
-    luma = np.power(luma, 1.0 / gamma)           # gamma
-    luma = np.clip(luma, 0, 1)                   # final clamp
+    luma = (luma - 0.5) * contrast + 0.5
+    luma = luma + (brightness - 1)
+    luma = np.clip(luma, 0, 1)
+    luma = np.power(luma, 1.0 / gamma)
+    luma = np.clip(luma, 0, 1)
 
     # ── 6. Floyd-Steinberg dithering ────────────────────────────────────────
-    ramp = ASCII_RAMP
-    steps = len(ramp) - 1  # quantization levels
+    steps = len(ASCII_RAMP) - 1
     h, w = luma.shape
     for y_ in range(h):
         for x_ in range(w):
@@ -539,7 +538,6 @@ def image2ascii(image_path):
             new_val = round(old_val * steps) / steps
             error = old_val - new_val
             luma[y_, x_] = new_val
-
             if x_ + 1 < w:
                 luma[y_, x_ + 1] += error * (7 / 16)
             if y_ + 1 < h:
@@ -549,32 +547,46 @@ def image2ascii(image_path):
                 if x_ + 1 < w:
                     luma[y_ + 1, x_ + 1] += error * (1 / 16)
 
-    # ── 7. Character mapping ────────────────────────────────────────────────
-    lines = []
+    # ── 7. Grayscale color mapping (single-char) ────────────────────────────
+    if theme == "dark":
+        bg_rgb = (0x0d, 0x11, 0x17)
+        text_rgb = (0xc9, 0xd1, 0xd9)
+    else:
+        bg_rgb = (0xf6, 0xf8, 0xfa)
+        text_rgb = (0x24, 0x29, 0x2f)
+
+    rows = []
     for y_ in range(h):
-        chars = []
+        row = []
         for x_ in range(w):
-            idx = int(luma[y_, x_] * steps)
-            chars.append(ramp[idx])
-        lines.append("".join(chars))
+            t = float(luma[y_, x_])
+            r = int(bg_rgb[0] + (text_rgb[0] - bg_rgb[0]) * t)
+            g = int(bg_rgb[1] + (text_rgb[1] - bg_rgb[1]) * t)
+            b = int(bg_rgb[2] + (text_rgb[2] - bg_rgb[2]) * t)
+            color = f"#{r:02x}{g:02x}{b:02x}"
+            row.append(("·", color))
+        rows.append(row)
 
-    return lines
+    return rows
 
 
-def build_ascii_svg(ascii_lines, start_x=15, start_y=30):
-    """Generate SVG tspans — one per line, monochrome."""
+def build_ascii_svg(ascii_rows, start_x=15, start_y=30):
+    """Generate SVG tspans — per-character colored for single-char mode."""
     parts = []
-    for i, line in enumerate(ascii_lines):
-        y = start_y + i * 20
-        escaped = line.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        parts.append(f'  <tspan x="{start_x}" y="{y}">{escaped}</tspan>\n')
+    for row_idx, row in enumerate(ascii_rows):
+        y = start_y + row_idx * 20
+        parts.append(f'  <tspan x="{start_x}" y="{y}">')
+        for char, color in row:
+            escaped = char.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            parts.append(f'<tspan fill="{color}">{escaped}</tspan>')
+        parts.append("</tspan>\n")
     return "".join(parts)
 
 
 # ── SVG builder ────────────────────────────────────────────────────────────────
 
 
-def svg_builder(ascii_lines, profile, stats, theme="light"):
+def svg_builder(ascii_rows, profile, stats, theme="light"):
     """Generate complete SVG — neofetch-style with ASCII art (left) + stats (right)."""
 
     # ── color scheme ────────────────────────────────────────────────────────
@@ -740,7 +752,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
     )
 
     # ── compute layout ─────────────────────────────────────────────────────
-    ascii_height = len(ascii_lines) * 20  # px
+    ascii_height = len(ascii_rows) * 20  # px
     text_height = y - 30
     if ascii_height > text_height:
         text_offset_y = (ascii_height - text_height) // 2
@@ -769,7 +781,7 @@ def svg_builder(ascii_lines, profile, stats, theme="light"):
 
     # ── left panel: ASCII art ──────────────────────────────────────────────
     svg.append(f'<text x="{LEFT_X}" y="30" fill="{main_fill}">\n')
-    svg.append(build_ascii_svg(ascii_lines, start_x=LEFT_X, start_y=30))
+    svg.append(build_ascii_svg(ascii_rows, start_x=LEFT_X, start_y=30))
     svg.append("</text>\n")
 
     # ── right panel: text (with vertical centering) ────────────────────────
@@ -863,18 +875,19 @@ def main():
         "contributed": contrib_data,
     }
 
-    # 9. Generate ASCII art (monochrome — same output for both themes)
+    # 9. Generate ASCII art (per-theme grayscale)
     print("Generating ASCII art...")
-    ascii_lines, ascii_time = perf_counter(image2ascii, "avatar.png")
-    print_duration("ascii art", ascii_time)
+    ascii_light, ascii_time = perf_counter(image2ascii, "avatar.png", "light")
+    print_duration("ascii art (light)", ascii_time)
+    ascii_dark, _ = perf_counter(image2ascii, "avatar.png", "dark")
 
     # 10. Generate SVGs
     print("Generating SVGs...")
     with open("light_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="light"))
+        f.write(svg_builder(ascii_light, PROFILE, stats, theme="light"))
 
     with open("dark_mode.svg", "w", encoding="utf-8") as f:
-        f.write(svg_builder(ascii_lines, PROFILE, stats, theme="dark"))
+        f.write(svg_builder(ascii_dark, PROFILE, stats, theme="dark"))
 
     # timing summary
     total_runtime = (
