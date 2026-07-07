@@ -658,7 +658,7 @@ def svg_builder(profile, stats, theme="light"):
         'font-family="Consolas,monospace" '
         'width="100%" height="100%" '
         'viewBox="0 0 440 ' + str(canvas_height) + '" '
-        'font-size="14px">\n'
+        'font-size="13.5px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
         ".value {fill: " + value_fill + ";}\n"
