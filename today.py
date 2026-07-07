@@ -25,7 +25,7 @@ load_dotenv()
 
 # ── constants ──────────────────────────────────────────────────────────────────
 
-ASCII_WIDTH = 50  # chars wide for left panel
+ASCII_WIDTH = 90  # chars wide for left panel
 ASCII_RAMP = " .:-=+*#%@"  # 10 levels, used for dithering quantization only
 
 GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
@@ -520,7 +520,7 @@ def image2ascii(image_path, theme="light"):
 
     # ── 5. Adjustments ──────────────────────────────────────────────────────
     contrast = 2.0
-    brightness = 1.2
+    brightness = 2.0
     gamma = 1.2
 
     luma = (luma - 0.5) * contrast + 0.5
@@ -608,9 +608,11 @@ def svg_builder(ascii_rows, profile, stats, theme="light"):
         del_fill = "#cf222e"
 
     # ── layout constants ────────────────────────────────────────────────────
-    CANVAS_W = 1050
     LEFT_X = 15
-    RIGHT_X = 510  # 50/50 split with tight gutter
+    ascii_char_count = len(ascii_rows[0]) if ascii_rows else 50
+    image_px = int(ascii_char_count * 9.6 + LEFT_X)
+    RIGHT_X = image_px + 35   # gutter
+    CANVAS_W = RIGHT_X + 550  # text panel width
 
     # ── build text panel ────────────────────────────────────────────────────
     text_svg = []
