@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="100%" height="100%" viewBox="0 0 440 497" font-size="13.5px">
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="100%" height="100%" viewBox="0 0 440 447" font-size="12px">
 <style>
 .key {fill: #953800;}
 .value {fill: #0a3069;}
@@ -11,30 +11,30 @@ text, tspan {white-space: pre;}
 <rect width="100%" height="100%" fill="#f6f8fa" rx="6"/>
 <text x="0" y="12" fill="#24292f">
   <tspan x="0" y="12" font-size="15px" font-weight="bold" fill="#1a7f37">draux-l@dllanos</tspan>
-  <tspan x="0" y="29" fill="#c2cfde">──────────────────────────</tspan>
-  <tspan x="0" y="46" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc">. </tspan><tspan class="value">Software Developer | Data enthusiast</tspan>
-  <tspan x="0" y="63" class="cc">. </tspan><tspan class="key">Location</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">Arequipa - Per</tspan>
-  <tspan x="0" y="80" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc"></tspan><tspan class="value">Backend dev with a passion for data science and continuous learning. Community volunteer.</tspan>
-  <tspan x="0" y="103" font-weight="bold" fill="#953800">─ Tech Stack ──────────────────</tspan>
-  <tspan x="0" y="120" class="cc">. </tspan><tspan class="key">Core</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">Python, Django, JS, TS, React</tspan>
-  <tspan x="0" y="137" class="cc">. </tspan><tspan class="key">DevOps</tspan>:<tspan class="cc"> .......... </tspan><tspan class="value">Docker, GitHub, Oracle Cloud</tspan>
-  <tspan x="0" y="154" class="cc">. </tspan><tspan class="key">Data</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">Pandas, NumPy, Statistics</tspan>
-  <tspan x="0" y="171" class="cc">. </tspan><tspan class="key">OS</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">Windows, Ubuntu (Linux)</tspan>
-  <tspan x="0" y="194" font-weight="bold" fill="#953800">─ Currently ──────────────────</tspan>
-  <tspan x="0" y="211" class="cc">. </tspan><tspan class="key">Learning</tspan>:<tspan class="cc"> ............ </tspan><tspan class="value">Data Science (Alura LATAM)</tspan>
-  <tspan x="0" y="228" class="cc">. </tspan><tspan class="key">Building</tspan>:<tspan class="cc"> .......... </tspan><tspan class="value">Backend projects with Django</tspan>
-  <tspan x="0" y="245" class="cc">. </tspan><tspan class="key">Goals</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">Looking for opportunities to grow</tspan>
-  <tspan x="0" y="268" font-weight="bold" fill="#953800">─ Languages ──────────────────</tspan>
-  <tspan x="0" y="285" class="cc">. </tspan><tspan class="key">Spoken</tspan>:<tspan class="cc">. </tspan><tspan class="value">Spanish (native), English (learning)</tspan>
-  <tspan x="0" y="308" font-weight="bold" fill="#953800">─ Hobbies ──────────────────</tspan>
-  <tspan x="0" y="325" class="cc">. </tspan><tspan class="key">Interests</tspan>:<tspan class="cc"></tspan><tspan class="value">Community volunteering, continuous learning</tspan>
-  <tspan x="0" y="348" font-weight="bold" fill="#953800">─ Contact ──────────────────</tspan>
-  <tspan x="0" y="365" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc"> ........... </tspan><tspan class="value">llanosgarciadiego@gmail.com</tspan>
-  <tspan x="0" y="382" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> .......... </tspan><tspan class="value">linkedin.com/in/diegollanosg</tspan>
-  <tspan x="0" y="399" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> ............................... </tspan><tspan class="value">draux.l</tspan>
-  <tspan x="0" y="422" font-weight="bold" fill="#953800">─ GitHub Stats ──────────────────</tspan>
-  <tspan x="0" y="439" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
-  <tspan x="0" y="456" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">78</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">1</tspan>
-  <tspan x="0" y="473" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">107,823</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">113.5K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">5.7K</tspan> )
+  <tspan x="0" y="27" fill="#c2cfde">──────────────────────────</tspan>
+  <tspan x="0" y="42" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc">. </tspan><tspan class="value">Software Developer | Data enthusiast</tspan>
+  <tspan x="0" y="57" class="cc">. </tspan><tspan class="key">Location</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">Arequipa - Per</tspan>
+  <tspan x="0" y="72" class="cc">. </tspan><tspan class="key">About</tspan>:<tspan class="cc"></tspan><tspan class="value">Backend dev with a passion for data science and continuous learning. Community volunteer.</tspan>
+  <tspan x="0" y="93" font-weight="bold" fill="#953800">─ Tech Stack ──────────────────</tspan>
+  <tspan x="0" y="108" class="cc">. </tspan><tspan class="key">Core</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">Python, Django, JS, TS, React</tspan>
+  <tspan x="0" y="123" class="cc">. </tspan><tspan class="key">DevOps</tspan>:<tspan class="cc"> .......... </tspan><tspan class="value">Docker, GitHub, Oracle Cloud</tspan>
+  <tspan x="0" y="138" class="cc">. </tspan><tspan class="key">Data</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">Pandas, NumPy, Statistics</tspan>
+  <tspan x="0" y="153" class="cc">. </tspan><tspan class="key">OS</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">Windows, Ubuntu (Linux)</tspan>
+  <tspan x="0" y="174" font-weight="bold" fill="#953800">─ Currently ──────────────────</tspan>
+  <tspan x="0" y="189" class="cc">. </tspan><tspan class="key">Learning</tspan>:<tspan class="cc"> ............ </tspan><tspan class="value">Data Science (Alura LATAM)</tspan>
+  <tspan x="0" y="204" class="cc">. </tspan><tspan class="key">Building</tspan>:<tspan class="cc"> .......... </tspan><tspan class="value">Backend projects with Django</tspan>
+  <tspan x="0" y="219" class="cc">. </tspan><tspan class="key">Goals</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">Looking for opportunities to grow</tspan>
+  <tspan x="0" y="240" font-weight="bold" fill="#953800">─ Languages ──────────────────</tspan>
+  <tspan x="0" y="255" class="cc">. </tspan><tspan class="key">Spoken</tspan>:<tspan class="cc">. </tspan><tspan class="value">Spanish (native), English (learning)</tspan>
+  <tspan x="0" y="276" font-weight="bold" fill="#953800">─ Hobbies ──────────────────</tspan>
+  <tspan x="0" y="291" class="cc">. </tspan><tspan class="key">Interests</tspan>:<tspan class="cc"></tspan><tspan class="value">Community volunteering, continuous learning</tspan>
+  <tspan x="0" y="312" font-weight="bold" fill="#953800">─ Contact ──────────────────</tspan>
+  <tspan x="0" y="327" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc"> ........... </tspan><tspan class="value">llanosgarciadiego@gmail.com</tspan>
+  <tspan x="0" y="342" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> .......... </tspan><tspan class="value">linkedin.com/in/diegollanosg</tspan>
+  <tspan x="0" y="357" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> ............................... </tspan><tspan class="value">draux.l</tspan>
+  <tspan x="0" y="378" font-weight="bold" fill="#953800">─ GitHub Stats ──────────────────</tspan>
+  <tspan x="0" y="393" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
+  <tspan x="0" y="408" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">79</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">1</tspan>
+  <tspan x="0" y="423" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">107,823</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">113.5K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">5.7K</tspan> )
 </text>
 </svg>
