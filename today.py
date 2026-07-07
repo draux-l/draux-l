@@ -509,7 +509,7 @@ def svg_builder(profile, stats, theme="light"):
 
     # ── build text panel ────────────────────────────────────────────────────
     text_svg = []
-    y = 10
+    y = 0
 
     def add_section_header(title, dash_count=18):
         nonlocal y
