@@ -13,7 +13,7 @@ PROFILE = {
 
     # ── ABOUT ─────────────────────────────────────────────
     "about_bio": "Software Developer | Data enthusiast",
-    "location":  "Arequipa - Per",
+    "location":  "Arequipa - Perú",
     "about_long": (
         "Backend dev with a passion for data science "
         "and continuous learning. Community volunteer."

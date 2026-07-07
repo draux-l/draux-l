@@ -542,7 +542,7 @@ def svg_builder(profile, stats, theme="light"):
     def add_info_row(label, value):
         nonlocal y
         VALUE_START = 30
-        VALUE_CHARS = 48
+        VALUE_CHARS = 50
         prefix = f". {label}:"
         dots_needed = max(0, VALUE_START - len(prefix) - 1)
         if dots_needed <= 0:
@@ -695,7 +695,7 @@ def svg_builder(profile, stats, theme="light"):
         '<svg xmlns="http://www.w3.org/2000/svg" '
         'font-family="Consolas,monospace" '
         'width="100%" height="100%" '
-        'viewBox="0 0 500 ' + str(canvas_height) + '" '
+        'viewBox="0 0 440 ' + str(canvas_height) + '" '
         'font-size="12px">\n'
         "<style>\n"
         ".key {fill: " + key_fill + ";}\n"
