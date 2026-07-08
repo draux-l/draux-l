@@ -541,7 +541,7 @@ def svg_builder(profile, stats, theme="light"):
 
     def add_info_row(label, value):
         nonlocal y
-        VALUE_START = 30
+        VALUE_START = 28
         VALUE_CHARS = 47
         prefix = f". {label}:"
         dots_needed = max(0, VALUE_START - len(prefix) - 1)
