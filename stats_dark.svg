@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="100%" height="100%" viewBox="0 0 440 447" font-size="12px">
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,monospace" width="100%" height="100%" viewBox="0 0 550 447" font-size="12px">
 <style>
 .key {fill: #ffa657;}
 .value {fill: #a5d6ff;}
@@ -34,7 +34,7 @@ text, tspan {white-space: pre;}
   <tspan x="0" y="357" class="cc">. </tspan><tspan class="key">Discord</tspan>:<tspan class="cc"> ................. </tspan><tspan class="value">draux.l</tspan>
   <tspan x="0" y="378" font-weight="bold" font-size="13px" fill="#c9d1d9">─ GitHub Stats ──────────────────</tspan>
   <tspan x="0" y="393" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc"> ..... </tspan><tspan class="value">4</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value">10</tspan>}<tspan class="cc"> |  </tspan><tspan class="key">Stars</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">1</tspan>
-  <tspan x="0" y="408" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">92</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">2</tspan>
+  <tspan x="0" y="408" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">93</tspan><tspan class="cc"> |  </tspan><tspan class="key">Followers</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">2</tspan>
   <tspan x="0" y="423" class="cc">. </tspan><tspan class="key">GitHub LOC</tspan>:<tspan class="cc"> .................. </tspan><tspan class="value">107,860</tspan> ( <tspan class="addColor">+</tspan><tspan class="addColor">113.6K</tspan>, <tspan class="delColor">-</tspan><tspan class="delColor">5.8K</tspan> )
 </text>
 </svg>
